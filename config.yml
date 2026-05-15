@@ -10,7 +10,7 @@ repository: CallejaJ/fortris26
 github_user: CallejaJ
 
 # Theme
-theme: jekyll-theme-slate
+theme: jekyll-theme-architect
 
 # Navigation
 markdown: kramdown
