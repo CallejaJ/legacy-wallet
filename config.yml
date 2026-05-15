@@ -1,0 +1,41 @@
+# GitHub Pages Configuration for Jekyll
+
+title: Fortris - Wallet Hereditaria EIP-4337
+description: Investigación y desarrollo de wallet criptográfica hereditaria basada en ERC-4337
+author: Jorge Calleja Pérez
+email: posicionadoenlaweb@gmail.com
+
+# Repository
+repository: CallejaJ/fortris26
+github_user: CallejaJ
+
+# Theme
+theme: jekyll-theme-minimal
+
+# URL Settings
+url: "https://CallejaJ.github.io"
+baseurl: "/fortris26"
+
+# Navigation
+markdown: kramdown
+permalink: /docs/:title/
+
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:name/
+
+# Build settings
+exclude: [Gemfile, Gemfile.lock, LICENSE, README.md, .gitignore]
+
+# Front Matter Defaults
+defaults:
+  - scope:
+      path: "docs"
+    values:
+      layout: default
+      nav_order: 1
+
+# Search
+search_enabled: true

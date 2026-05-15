@@ -1,0 +1,11 @@
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Dependencias
+node_modules/
+.venv/
+
+# Build
+_site/
+.jekyll-cache/
