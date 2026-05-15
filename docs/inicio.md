@@ -92,9 +92,11 @@ Heredero inicia reclamación, quórum firma, payout atómico
 
 ## Contactos
 
-- Email:
-- Responsable:
-- Equipo: Diseño de producto
+| Nombre | Rol |
+|---|---|
+| **Jaime Cabrera** | Co-autor |
+| **Martina Rojas** | Co-autora |
+| **Jorge Calleja** | Co-autor |
 
 ---
 

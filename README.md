@@ -149,4 +149,4 @@ La suite de tests está dividida en tests unitarios en Solidity con **Foundry** 
 
 ---
 
-Built for Ethereum / ERC-4337.
+Built for Ethereum / ERC-4337 — Jaime Cabrera, Martina Rojas y Jorge Calleja.
