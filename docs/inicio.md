@@ -100,4 +100,4 @@ Heredero inicia reclamación, quórum firma, payout atómico
 
 ---
 
-Última actualización: 15 Mayo 2026
+Última actualización: 04 Junio 2026

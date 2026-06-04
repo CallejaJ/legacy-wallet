@@ -1,127 +1,114 @@
-# Roadmap: 4 Sprints de Implementación
+# Roadmap: Plan de Implementación de 6 Semanas (1 Desarrollador)
 
-## Sprint 1: Diseño (Semana 1)
+## Semana 1 — Configuración y Smart Contract Base (5 Jun - 12 Jun)
 
-Objetivo: Establecer la visión visual y arquitectónica del proyecto
+**Objetivo:** Establecer el entorno de desarrollo y crear el esqueleto del módulo de herencia para Safe.
 
-Tareas:
+**Tareas:**
+- Setup del entorno con Foundry e inicialización del repositorio de contratos.
+- Analizar la interfaz de módulos de Safe (`ISafe`, `IModule`).
+- Crear el esqueleto del contrato `InheritanceModule.sol` con stubs de funciones críticas (`configureInheritance`, `submitProofOfLife`, `initiateClaim`, `signClaim`, `executePayout`, `cancelClaim`).
+- Desplegar una Safe Account de prueba en Sepolia para verificar la integración y la capacidad de instalación del módulo custom.
 
-- Crear wireframes para modo hereditario (4+ pantallas)
-- Diagrama de flujo: testamento → smart contract
-- Diagrama de arquitectura técnica general
-- Definir interfaz del oráculo (inputs/outputs)
-- Mapeo de pantallas: carga certificado, mapeo beneficiarios, revalidación
-
-Entregables:
-
-- Figma con wireframes completos
-- Diagramas de arquitectura (Draw.io)
-- Documento de interfaz del oráculo
+**Entregables:**
+- Proyecto Foundry compilando.
+- Contrato base `InheritanceModule.sol` desplegado y verificado como módulo en una Safe de testnet.
 
 ---
 
-## Sprint 2: Backend + Oráculo (Semana 2-3)
+## Semana 2 — Lógica Core de Smart Contracts & Tests (12 Jun - 19 Jun)
 
-Objetivo: Implementar lógica backend y contrato inteligente
+**Objetivo:** Desarrollar la lógica completa de herencia y validar mediante tests robustos.
 
-Tareas:
+**Tareas:**
+- Implementar la lógica del contrato inteligente: control de inactividad, validación de pesos (BPS 10000), verificación de quórum y distribución atómica de múltiples activos (ETH + ERC-20).
+- Escribir tests unitarios exhaustivos en Foundry (casos de inactividad, quórum no alcanzado, expiración de certificado, cancelación del titular, etc.).
+- Desplegar e interactuar con el contrato verificado en Sepolia.
 
-- Implementar endpoint para validar PKI (OpenSSL)
-- Parsing del testamento (OCR o manual)
-- Deploy del módulo ERC-4337 en testnet
-- Integración con Paymaster
-- Unit tests (15 test cases)
-
-Entregables:
-
-- Backend funcional con validación PKI
-- Smart contract InheritanceModule deployable
-- Tests completados al 100%
-- Documentación de API
+**Entregables:**
+- Smart contract finalizado, desplegado y verificado on-chain en Sepolia.
+- Suite de tests unitarios e integración (+15 casos) completada en un 100% en Foundry.
 
 ---
 
-## Sprint 3: Frontend (Semana 4-5)
+## Semana 3 — Backend / Oráculo (Setup y PKI) (19 Jun - 26 Jun)
 
-Objetivo: Interfaz completa y funcional
+**Objetivo:** Configurar el backend y desarrollar la verificación criptográfica del certificado notarial.
 
-Tareas:
+**Tareas:**
+- Inicializar el backend del proyecto con Node.js, TypeScript y Ethers.
+- Configurar OpenSSL para la validación de certificados criptográficos X.509 firmados digitalmente.
+- Implementar endpoints iniciales de mock y simulación de la firma del oráculo.
 
-- Implementar carga de certificado PKI
-- Mapeo de beneficiarios desde testamento
-- Flujo de reclamación para heredero
-- Integración con UserOperation (ERC-4337)
-- Integration tests con Paymaster
-- Refinamiento UI/UX
-
-Entregables:
-
-- Frontend completamente funcional
-- Tests de integración completados
-- UI refinado y responsive
-- Manual de usuario
+**Entregables:**
+- Servidor backend corriendo y documentado.
+- Módulo de validación PKI que parsea y valida firmas notariales sobre certificados de prueba.
 
 ---
 
-## Sprint 4: Demo + Presentación (Semana 6-7)
+## Semana 4 — Backend / Integración con Safe API Kit (26 Jun - 3 Jul)
 
-Objetivo: PoC funcionando y presentación ejecutiva
+**Objetivo:** Permitir que el backend proponga y gestione transacciones utilizando el SDK de Safe.
 
-Tareas:
+**Tareas:**
+- Integrar `@safe-global/api-kit` para interactuar con el Safe Transaction Service.
+- Implementar el endpoint definitivo `POST /oracle/configure` (recibe certificado, valida PKI, crea transacción de configuración y la propone a la Safe).
+- Implementar el endpoint `POST /oracle/revalidate` para actualización de certificados.
+- Diseñar y documentar la API utilizando OpenAPI / Swagger.
 
-- PoC end-to-end (testamento → payout ejecutado)
-- Documentación técnica final
-- Creación de presentación ejecutiva
-- Diagramas y visuales finales
-- Video demo funcional
-
-Entregables:
-
-- PoC completamente funcional
-- Presentación Canva/Slides
-- Documentación técnica PDF
-- Video demo (5-10 minutos)
-- Repositorio público con README
+**Entregables:**
+- API del Oráculo conectada con testnet Sepolia, lista para proponer firmas a la Safe de forma remota.
 
 ---
 
-## Timeline Visual
+## Semana 5 — Frontend & Integración con Safe SDKs (3 Jul - 10 Jul)
+
+**Objetivo:** Crear la interfaz del usuario y conectarla con los smart contracts y el backend.
+
+**Tareas:**
+- Inicializar el frontend usando React, TypeScript y Vite.
+- Integrar `@safe-global/protocol-kit` para inicializar y gestionar la wallet del titular.
+- Integrar `@safe-global/relay-kit` para la firma de reclamaciones gasless mediante Gelato / ERC-4337.
+- Implementar flujos y pantallas de usuario: Registro de herencia (carga de certificado), Gestión de herederos, Envío de fe de vida (Proof of Life) y Reclamación de activos.
+
+**Entregables:**
+- Interfaz de usuario completamente conectada a la blockchain Sepolia y al oráculo backend.
+
+---
+
+## Semana 6 — Integración E2E, Pruebas y Demo (10 Jul - 17 Jul)
+
+**Objetivo:** Conectar todo el flujo, realizar pruebas finales de integración y preparar la demo de entrega.
+
+**Tareas:**
+- Pruebas E2E: flujo de configuración → inactividad simulada → reclamación por heredero → pago multi-asset atómico patrocinado (gasless).
+- Depuración de errores en frontend, backend y contratos.
+- Escribir README de despliegue y documentación técnica general del proyecto.
+- Grabar video demo del flujo de usuario de 5 minutos.
+
+**Entregables:**
+- Prototipo funcional completo (E2E) corriendo en Sepolia.
+- Documentación del proyecto finalizada y video demostrativo.
+
+---
+
+## Timeline de Hitos Críticos
 
 ```
-Mayo 15  | ----SPRINT 1---- | Mayo 22
-         |   Diseño         |
-
-Mayo 22  | -------SPRINT 2------- | Junio 5
-         |  Backend + Oráculo    |
-
-Junio 5  | -------SPRINT 3------- | Junio 19
-         |      Frontend         |
-
-Junio 19 | ----SPRINT 4---- | Junio 30
-         | Demo + Presenta. |
+05 Jun: Inicio del desarrollo
+19 Jun: Smart Contracts deployados y testeados al 100% (Hito 1)
+03 Jul: Backend / Oráculo integrado con Safe Transaction Service (Hito 2)
+10 Jul: Frontend funcional e integrado con Safe SDKs (Hito 3)
+17 Jul: Presentación final y PoC E2E funcionando (Hito 4)
 ```
 
-## Hitos Críticos
-
-- **Junio 1:** Especificación de diseño aprobada
-- **Junio 8:** Backend + Oráculo funcional
-- **Junio 15:** Frontend integrado
-- **Junio 30:** Presentación final
-
-## Dependencias
-
-- Sprint 1 → Bloquea Sprint 2 (necesita especificación)
-- Sprint 2 → Bloquea Sprint 3 (necesita API)
-- Sprint 3 → Bloquea Sprint 4 (necesita frontend)
+---
 
 ## Recursos Necesarios
 
-- 1 Frontend Developer (React)
-- 1 Backend Developer (Node.js)
-- 1 Smart Contract Developer (Solidity)
-- 1 PKI/Security Expert
-- 1 Product Designer
+- **1 Desarrollador (Solo yo):** Full-Stack & Blockchain Developer.
+- **Infraestructura:** RPC de Sepolia, Safe Transaction Service, servicio de relaying (Gelato/Safe Relay Kit).
 
 ---
 
-Última actualización: 15 Mayo 2026
+Última actualización: 04 Junio 2026

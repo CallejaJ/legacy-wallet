@@ -22,5 +22,5 @@ Investigación y desarrollo de solución de wallet criptográfica hereditaria ba
 
 - Estado: En curso
 - Prioridad: Alta
-- Fecha inicio: 15 Mayo 2026
-- Fecha estimada: 30 Junio 2026
+- Fecha inicio: 05 Junio 2026
+- Fecha estimada: 17 Julio 2026

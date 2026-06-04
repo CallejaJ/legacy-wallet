@@ -11,7 +11,7 @@ Wallet hereditaria con Safe: Wallet Hereditaria EIP-4337
 Investigación y desarrollo de solución de wallet criptográfica hereditaria
 
 Jorge Calleja Pérez
-Mayo 2026
+Junio 2026
 
 ---
 
@@ -110,23 +110,19 @@ Oráculo: A definir (Chainlink o custom)
 
 ---
 
-## Slide 9: Roadmap (4 Sprints)
+## Slide 9: Roadmap (Plan de 6 Semanas)
 
-Sprint 1 (Semana 1): Diseño
+Semanas 1-2: Smart Contracts & Tests
+- Setup Foundry, InheritanceModule base y tests unitarios completos
 
-- Wireframes, diagramas, especificación
+Semanas 3-4: Backend & API Kit
+- Validación PKI de certificados y endpoints de propuesta de Tx
 
-Sprint 2 (Semana 2-3): Backend + Oráculo
+Semana 5: Frontend & Safe SDKs
+- Desarrollo UI con React y conexión con API/Protocol/Relay Kit
 
-- Validación PKI, smart contract, tests
-
-Sprint 3 (Semana 4-5): Frontend
-
-- Interfaz, integración, UX
-
-Sprint 4 (Semana 6-7): Demo + Presentación
-
-- PoC funcionando, documentación final
+Semana 6: Integración E2E y Demo
+- Conexión de todo el flujo, QA en testnet y grabación demo
 
 ---
 
@@ -185,23 +181,19 @@ Mitigaciones:
 
 ## Slide 14: Cronograma
 
-15 Mayo: Inicio
-30 Junio: Presentación final
+5 Junio: Inicio
+17 Julio: Presentación final
 
-Sprint 1: May 15-22 (Diseño)
-Sprint 2: May 22 - Jun 5 (Backend)
-Sprint 3: Jun 5-19 (Frontend)
-Sprint 4: Jun 19-30 (Demo)
+Semana 1-2: Jun 5-19 (Smart Contracts & Tests)
+Semana 3-4: Jun 19 - Jul 3 (Backend & API Kit)
+Semana 5: Jul 3-10 (Frontend & Safe SDKs)
+Semana 6: Jul 10-17 (Integración E2E y Demo)
 
 ---
 
 ## Slide 15: Equipo Requerido
 
-1 Frontend Developer (React)
-1 Backend Developer (Node.js)
-1 Smart Contract Engineer (Solidity)
-1 PKI/Security Expert
-1 Product Designer
+1 Desarrollador (Solo yo - Full-Stack & Blockchain)
 
 ---
 

@@ -130,4 +130,4 @@ Paymaster valida transacción
 
 ---
 
-Última actualización: 15 Mayo 2026
+Última actualización: 04 Junio 2026

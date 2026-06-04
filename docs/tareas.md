@@ -105,10 +105,10 @@
 
 ### Por Fecha
 
-- **Sprint 1:** Semana 1 (Investigación)
-- **Sprint 2:** Semana 2-3 (Backend + Testing)
-- **Sprint 3:** Semana 4-5 (Frontend)
-- **Sprint 4:** Semana 6-7 (Demo)
+- **Semanas 1-2:** Smart Contracts & Tests (5 Jun - 19 Jun)
+- **Semanas 3-4:** Backend & API Kit (19 Jun - 3 Jul)
+- **Semana 5:** Frontend & Safe SDKs (3 Jul - 10 Jul)
+- **Semana 6:** Integración E2E y Demo (10 Jul - 17 Jul)
 
 ---
 
@@ -122,4 +122,4 @@
 
 ---
 
-Última actualización: 15 Mayo 2026
+Última actualización: 04 Junio 2026
