@@ -1,10 +1,13 @@
-# Reparto de Tareas: Implementación con Safe (3 alumnos · 3 semanas)
+# Reparto de Tareas: Implementación con Safe (6 semanas)
 
 ## Contexto
 
 Fortris es una wallet de herencia digital. El plan original usaba ERC-4337 puro con un `InheritanceModule` custom. Los tutores del proyecto de empresa piden reutilizar **Safe** como infraestructura de smart account.
 
+Al realizar el desarrollo de forma individual, el cronograma se extiende a **6 semanas**, permitiendo abordar de manera secuencial los distintos componentes del sistema: Smart Contracts, Backend/Oráculo, Frontend e Integración.
+
 **Qué cambia con Safe:**
+
 - La smart account no se construye desde cero; se despliega una **Safe Account** estándar
 - El `InheritanceModule` pasa a ser un **Safe Module** (implementa la interfaz `ISafe`)
 - El quórum de herederos se gestiona a nivel de módulo (o aprovechando el multisig nativo de Safe)
@@ -13,62 +16,71 @@ Fortris es una wallet de herencia digital. El plan original usaba ERC-4337 puro 
 
 **Stack Safe utilizado:**
 
-| SDK | Uso |
-|-----|-----|
-| `@safe-global/protocol-kit` | Desplegar Safe account, instalar/desinstalar módulo |
-| `@safe-global/api-kit` | Coordinar firmas entre herederos (Transaction Service) |
-| `@safe-global/relay-kit` | Transacciones gasless para herederos |
-| Contrato Safe (on-chain) | Smart account del titular + multisig |
+| SDK                         | Uso                                                    |
+| --------------------------- | ------------------------------------------------------ |
+| `@safe-global/protocol-kit` | Desplegar Safe account, instalar/desinstalar módulo    |
+| `@safe-global/api-kit`      | Coordinar firmas entre herederos (Transaction Service) |
+| `@safe-global/relay-kit`    | Transacciones gasless para herederos                   |
+| Contrato Safe (on-chain)    | Smart account del titular + multisig                   |
 
 ---
 
-## Reparto de roles
+## Reparto de roles y dedicación
 
-| Alumno | Rol | Área principal |
-|--------|-----|----------------|
-| **Alumno A** | Smart Contracts | `InheritanceModule.sol` + tests Foundry |
-| **Alumno B** | Backend / Oráculo | Validación PKI + Safe API Kit + oracle service |
-| **Alumno C** | Frontend / Safe SDK | React + Protocol Kit + Relay Kit + UI flows |
+Todo el proyecto es desarrollado por **un único desarrollador**, distribuyendo el trabajo de forma progresiva.
 
-*(Jaime / Martina / Jorge pueden asignarse a cada rol según preferencia)*
+```mermaid
+gantt
+    title Plan de Trabajo (6 Semanas - 1 Desarrollador)
+    dateFormat  X
+    axisFormat %d
+    section Smart Contracts
+    Setup y Esqueleto del Módulo (S1) :active, s1, 0, 7
+    Lógica Core y Tests Foundry (S2)  :active, s2, 7, 14
+    section Backend
+    Setup y Validación PKI (S3)       :active, s3, 14, 21
+    Integración Safe API Kit (S4)     :active, s4, 21, 28
+    section Frontend
+    Desarrollo UI y Safe SDKs (S5)    :active, s5, 28, 35
+    section Integración
+    Integración E2E y Demo (S6)       :active, s6, 35, 42
+```
 
 ---
 
-## Semana 1 — Fundamentos y setup
+## Semana 1 — Configuración y Smart Contract Base
 
-### Alumno A — Smart Contracts
+### Objetivos:
+
+- Familiarizarse con la interfaz de Safe Modules.
+- Inicializar el entorno de desarrollo smart contracts.
+- Implementar la estructura inicial del módulo.
+
+### Tareas:
+
 - Leer: Safe Module interface (`ISafe`, `IModule`) en docs.safe.global/advanced/smart-account-modules
 - Inicializar proyecto Foundry: `forge init contracts/`
 - Crear stub `InheritanceModule.sol` con estructura de datos y funciones vacías: `configureInheritance`, `submitProofOfLife`, `initiateClaim`, `signClaim`, `executePayout`, `cancelClaim`
 - Desplegar Safe de prueba en Sepolia para validar que el módulo se puede instalar
+- Documentar el flujo y la estructura del contrato en base a la especificación técnica.
 
-**Entregable:** `InheritanceModule.sol` compila + Safe de prueba desplegada en Sepolia
-
-### Alumno B — Backend / Oráculo
-- Inicializar proyecto Node.js 20 + TypeScript: `backend/`
-- Instalar `@safe-global/api-kit`, `ethers`, OpenSSL bindings
-- Crear endpoint `POST /validate-certificate` (mock por ahora)
-- Conectar `api-kit` a Sepolia Transaction Service y listar transacciones de la Safe del Alumno A
-
-**Entregable:** Servidor corriendo, endpoint de mock, conexión API Kit verificada
-
-### Alumno C — Frontend
-- Inicializar proyecto React 18 + TypeScript + Vite: `frontend/`
-- Instalar `@safe-global/protocol-kit`, `@safe-global/relay-kit`, `wagmi`, `viem`
-- Implementar conexión de wallet (MetaMask / WalletConnect) con wagmi
-- Pantalla de inicio + pantalla "Mi Safe" que muestra saldo usando Protocol Kit
-
-**Entregable:** App corre, conecta wallet, muestra Safe account en Sepolia
+**Entregable:** Proyecto Foundry inicializado, contrato base compila y primer Safe de prueba desplegado en Sepolia con el módulo instalado/instalable.
 
 ---
 
-## Semana 2 — Implementación core
+## Semana 2 — Lógica Core de Smart Contracts & Tests
 
-### Alumno A — Smart Contracts
+### Objetivos:
+
+- Completar el desarrollo del contrato inteligente.
+- Desarrollar la suite de tests automatizados.
+
+### Tareas:
+
 - Implementar lógica completa de `InheritanceModule.sol`:
   - `configureInheritance()` — validar pesos (BPS 10000), quórum, certificado no expirado, solo oráculo
   - `submitProofOfLife()` — actualizar timestamp, cancelar claim abierto
-  - `initiateClaim()` — verificar inactividad > threshold, iniciar grace period 14 días
+  - `initiateClaim()` — verificar inactividad > threshold, iniciar grace period
   - `signClaim()` — registrar firma, contar quórum
   - `executePayout()` — distribuir ETH + ERC-20 proporcionalmente, desinstalar módulo
   - `cancelClaim()` / `uninstallModule()` / `revalidateCertificate()`
@@ -77,85 +89,133 @@ Fortris es una wallet de herencia digital. El plan original usaba ERC-4337 puro 
   - `test_SubmitProofOfLife_UpdatesTimestamp/CancelsClaim`
   - `test_InitiateClaim_BeforeThreshold_Fails/Valid`
   - `test_SignClaim_Counts`, `test_ExecutePayout_*`, `test_CancelClaim_*`
-- Deploy `InheritanceModule.sol` verificado en Sepolia
+- Desplegar y verificar `InheritanceModule.sol` en Sepolia.
 
-**Entregable:** Módulo deployado, 15+ tests passing
+**Entregable:** Smart Contract definitivo desplegado y verificado en Sepolia + suite de 15+ tests unitarios pasando.
 
-### Alumno B — Backend / Oráculo
-- Implementar validación PKI real con OpenSSL (parsear cert X.509, verificar firma notarial)
+---
+
+## Semana 3 — Backend / Oráculo (Setup y PKI)
+
+### Objetivos:
+
+- Inicializar el entorno del backend.
+- Implementar la validación criptográfica de certificados.
+
+### Tareas:
+
+- Inicializar proyecto Node.js 20 + TypeScript: `backend/`
+- Configurar dependencias de criptografía y ethers.
+- Implementar validación PKI real con OpenSSL (parsear certificado X.509, verificar firma del notario / emisor de confianza).
+- Crear endpoints mock de API para facilitar el testing.
+
+**Entregable:** Servidor backend estructurado, endpoint de validación PKI operativo contra certificados reales de prueba.
+
+---
+
+## Semana 4 — Backend / Integración con Safe API Kit
+
+### Objetivos:
+
+- Conectar el backend con Safe Transaction Service.
+- Completar la lógica de creación y firma de transacciones de Safe.
+
+### Tareas:
+
+- Instalar y configurar `@safe-global/api-kit` en el backend.
+- Conectar `api-kit` a Sepolia Transaction Service.
 - Implementar `POST /oracle/configure` que:
   1. Valida el certificado PKI recibido
   2. Construye la tx `configureInheritance()` con el ABI del módulo
   3. Propone la tx a la Safe vía API Kit (`safeApiKit.proposeTransaction`)
-- Implementar `POST /oracle/revalidate` para renovación de certificado
-- Documentar API con OpenAPI / Swagger
+- Implementar `POST /oracle/revalidate` para renovación de certificado.
+- Documentar la API con OpenAPI / Swagger.
 
-**Entregable:** Oracle valida PKI real + propone tx a Safe en Sepolia
-
-### Alumno C — Frontend
-- Pantalla **"Registrar herencia"**: subir cert PKI → llamar `/oracle/configure`
-- Pantalla **"Mis herederos"**: listar beneficiarios con pesos desde el módulo
-- Pantalla **"Proof of Life"**: botón que ejecuta `submitProofOfLife()` gasless vía Relay Kit
-- Pantalla **"Reclamar herencia"** (vista heredero): `initiateClaim()` + lista de firmantes + `signClaim()` coordinado vía API Kit
-
-**Entregable:** Flujos de registro y reclamación funcionales en testnet
+**Entregable:** Endpoints del oráculo operativos y proponiendo transacciones reales en el Transaction Service de Safe Sepolia.
 
 ---
 
-## Semana 3 — Integración, tests E2E y demo
+## Semana 5 — Frontend & Integración con Safe SDKs
 
-### Días 1-2: Integración end-to-end
-- Alumno C conecta frontend con módulo (A) y oracle (B)
-- Alumno B conecta oracle con el módulo deployado real
-- Alumno A escribe integration tests (JS/Vitest):
-  - `test_SignClaim_Gasless_WithRelayKit`
-  - `test_ExecutePayout_MultipleCurrencies`
+### Objetivos:
 
-### Días 3-4: PoC completo
-- Flujo completo: subir cert → oracle configura → inactividad → heredero reclama → payout ejecutado
-- Fix de bugs de integración
-- Alumno B: `executePayout()` también relayed (gasless para el heredero ejecutor)
+- Crear la interfaz de usuario.
+- Integrar Safe SDKs en el cliente web.
 
-### Día 5: Demo y entregables finales
-- Alumno A: NatSpec del contrato + diagrama de arquitectura final
-- Alumno B: README de la API + guía de despliegue
-- Alumno C: Refinamiento UI, responsive, pantalla de estado de herencia
-- Grabación del **video demo** (flujo completo en Sepolia, ~5 min)
+### Tareas:
+
+- Inicializar proyecto React 18 + TypeScript + Vite: `frontend/`
+- Instalar `@safe-global/protocol-kit`, `@safe-global/relay-kit`, `wagmi`, `viem`
+- Configurar conexión de wallet (MetaMask / WalletConnect) mediante wagmi.
+- Implementar pantallas principales:
+  - **Inicio / Mi Safe**: Conectar wallet y ver estado de la Safe Account.
+  - **Registrar Herencia**: Subir certificado PKI y conectar con el backend (`/oracle/configure`).
+  - **Mis Herederos**: Listar beneficiarios, pesos y tiempos configurados en el módulo.
+  - **Proof of Life**: Ejecutar fe de vida (`submitProofOfLife()`) de forma gasless mediante el Relay Kit.
+  - **Reclamar Herencia**: Iniciar reclamación, ver firmas acumuladas y firmar reclamaciones abiertas vía API Kit.
+
+**Entregable:** Aplicación frontend conectada a testnet, permitiendo realizar los flujos principales.
 
 ---
 
-## Dependencias críticas
+## Semana 6 — Integración E2E, Pruebas y Demo
+
+### Objetivos:
+
+- Conectar todas las piezas (Frontend, Backend, Contratos).
+- Realizar pruebas integrales y preparar la entrega.
+
+### Tareas:
+
+- Conectar frontend con backend oráculo y módulo deployado.
+- Validar el flujo E2E completo:
+  - Subida de certificado → Configuración por Oráculo en Safe.
+  - Simulación de inactividad → Inicio de reclamación por heredero.
+  - Firma del reclamo y ejecución final de la herencia (gasless/relayed para el heredero ejecutor).
+- Resolver fallos de integración detectados.
+- Añadir documentación final (READMEs, diagramas de arquitectura refinados y NatSpec completo).
+- Grabar video demostrativo de 5 minutos recorriendo el flujo de usuario.
+
+**Entregable:** Sistema completamente integrado y operativo en Sepolia, documentación de entrega y video demo.
+
+---
+
+## Dependencias de desarrollo temporal
+
+Al trabajar en solitario, el desarrollo sigue un camino crítico estrictamente lineal, lo que minimiza problemas de integración:
 
 ```
-S1: Alumno A despliega Safe + stub módulo
-         ↓
-S2: Alumno B usa ABI para oracle  |  Alumno C usa address para Protocol Kit
-         ↓
-S3: Integración E2E conjunta
+S1-S2: Smart Contracts desplegados y verificados
+          ↓
+S3-S4: Oráculo y API Kit funcionando contra Sepolia
+          ↓
+S5: Frontend consume API del oráculo e interactúa con el contrato
+          ↓
+S6: Pruebas de integración E2E, documentación y demo
 ```
-
-Al final de S1, el Alumno A publica `/contracts/deployments/sepolia.json` con el ABI y address del módulo. Ese fichero desbloquea a B y C para trabajar en paralelo durante S2.
 
 ---
 
 ## Estructura de archivos
 
+El proyecto mantiene la siguiente estructura:
+
 ```
 contracts/
-  src/InheritanceModule.sol          ← Alumno A
-  test/InheritanceModule.t.sol       ← Alumno A
-  deployments/sepolia.json           ← compartido (desbloquea S2)
+  src/InheritanceModule.sol          ← Código del smart contract
+  test/InheritanceModule.t.sol       ← Tests Foundry
+  deployments/sepolia.json           ← ABI y address del módulo en Sepolia
 
 backend/
-  src/oracle.ts                      ← Alumno B
-  src/pki-validator.ts               ← Alumno B
-  openapi.yaml                       ← Alumno B
+  src/oracle.ts                      ← Lógica del servidor oráculo y API Kit
+  src/pki-validator.ts               ← Validación de certificados X.509
+  openapi.yaml                       ← Definición de la API
 
 frontend/
-  src/pages/RegisterInheritance.tsx  ← Alumno C
-  src/pages/ClaimInheritance.tsx     ← Alumno C
-  src/hooks/useSafe.ts               ← Alumno C
-  src/hooks/useInheritanceModule.ts  ← Alumno C
+  src/pages/RegisterInheritance.tsx  ← Formulario de registro y subida de certificado
+  src/pages/ClaimInheritance.tsx     ← Pantalla de reclamación para herederos
+  src/hooks/useSafe.ts               ← Hook de interacción con Safe Protocol Kit
+  src/hooks/useInheritanceModule.ts  ← Hook de interacción con el módulo custom
 ```
 
 ---
@@ -165,5 +225,5 @@ frontend/
 1. `forge test --fork-url $SEPOLIA_RPC` → todos los tests Foundry en verde
 2. `curl -X POST /oracle/configure` con cert PKI de prueba → tx propuesta en Safe Transaction Service
 3. Frontend → conectar MetaMask Sepolia → subir cert → ver herederos configurados on-chain
-4. Simular inactividad (threshold = 1h en testnet) → heredero inicia y firma reclamación gasless
+4. Simular inactividad (threshold de prueba) → heredero inicia y firma reclamación gasless
 5. `executePayout()` → verificar en Sepolia Etherscan que ETH se distribuyó en proporción correcta
