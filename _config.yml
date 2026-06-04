@@ -1,12 +1,12 @@
 # GitHub Pages Configuration for Jekyll
 
-title: Fortris - Wallet Hereditaria EIP-4337
+title: Wallet hereditaria con Safe
 description: Investigación y desarrollo de wallet criptográfica hereditaria basada en ERC-4337
 author: Jaime Cabrera, Martina Rojas y Jorge Calleja
 email: posicionadoenlaweb@gmail.com
 
 # Repository
-repository: CallejaJ/fortris26
+repository: CallejaJ/wallet-hereditaria
 github_user: CallejaJ
 
 # Theme

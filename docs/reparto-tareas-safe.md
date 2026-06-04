@@ -2,7 +2,7 @@
 
 ## Contexto
 
-Fortris es una wallet de herencia digital. El plan original usaba ERC-4337 puro con un `InheritanceModule` custom. Los tutores del proyecto de empresa piden reutilizar **Safe** como infraestructura de smart account.
+Wallet hereditaria con Safe es una wallet de herencia digital. El plan original usaba ERC-4337 puro con un `InheritanceModule` custom. Los tutores del proyecto de empresa piden reutilizar **Safe** como infraestructura de smart account.
 
 Al realizar el desarrollo de forma individual, el cronograma se extiende a **6 semanas**, permitiendo abordar de manera secuencial los distintos componentes del sistema: Smart Contracts, Backend/Oráculo, Frontend e Integración.
 

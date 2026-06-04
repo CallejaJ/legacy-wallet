@@ -1,4 +1,4 @@
-# Fortris: Wallet Hereditaria EIP-4337
+# Wallet hereditaria con Safe: Wallet Hereditaria EIP-4337
 
 Presentación para Obsidian Slides
 
@@ -6,7 +6,7 @@ Presentación para Obsidian Slides
 
 ## Slide 1: Portada
 
-Fortris: Wallet Hereditaria EIP-4337
+Wallet hereditaria con Safe: Wallet Hereditaria EIP-4337
 
 Investigación y desarrollo de solución de wallet criptográfica hereditaria
 
@@ -30,7 +30,7 @@ Actualmente: NO HAY SOLUCIÓN VIABLE
 
 ## Slide 3: La Solución
 
-Fortris combina:
+Wallet hereditaria con Safe combina:
 
 1. Testamento notarial digital (PKI)
 2. Smart accounts con ERC-4337
@@ -45,7 +45,7 @@ Fortris combina:
 
 FASE 1: Usuario obtiene certificado notarial (PKI)
 
-FASE 2: Fortris valida certificado con oráculo
+FASE 2: Wallet hereditaria con Safe valida certificado con oráculo
 
 FASE 3: Instala módulo ERC-4337 de herencia
 
@@ -58,7 +58,7 @@ FASE 4: Heredero reclama activos automáticamente
 ```
 Usuario → Notario → Cert PKI
          ↓
-      Fortris
+      Wallet hereditaria con Safe
          ↓
       Oracle
          ↓
@@ -179,7 +179,7 @@ Mitigaciones:
 12. ¿Heredero puede impugnar herencia?
 13. ¿Revalidación periódica automática?
 14. ¿Recovery si oráculo falla?
-15. ¿Modelo de ingresos de Fortris?
+15. ¿Modelo de ingresos de Wallet hereditaria con Safe?
 
 ---
 
@@ -217,7 +217,7 @@ Sprint 4: Jun 19-30 (Demo)
 
 ## Slide 17: Conclusión
 
-Fortris cubre un gap importante:
+Wallet hereditaria con Safe cubre un gap importante:
 
 Herencia digital legal
 Segura
@@ -247,4 +247,4 @@ Especificación Técnica: docs/especificacion-tecnica.md
 Brainstorming: docs/brainstorming.md
 Preguntas Pendientes: docs/preguntas-pendientes.md
 
-GitHub: https://github.com/CallejaJ/fortris26
+GitHub: https://github.com/CallejaJ/wallet-hereditaria

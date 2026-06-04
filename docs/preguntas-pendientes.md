@@ -48,7 +48,7 @@ Lista de 15 preguntas críticas que necesitan respuesta antes de proceder a impl
 ## Decisiones Legales
 
 7. **¿Responsabilidad legal si el oráculo falla?**
-   - ¿Quién es responsable? (Fortris, oráculo, usuario)
+   - ¿Quién es responsable? (Wallet hereditaria con Safe, oráculo, usuario)
    - ¿Hay mecanismo de recuperación?
 
    Status: ABIERTO
@@ -77,7 +77,7 @@ Lista de 15 preguntas críticas que necesitan respuesta antes de proceder a impl
 ## Decisiones de Negocio
 
 11. **¿Costos notariales?**
-    - ¿Fortris absorbe o usuario paga?
+    - ¿Wallet hereditaria con Safe absorbe o usuario paga?
     - ¿Comisión por heredero?
     - ¿Modelo de ingresos?
 

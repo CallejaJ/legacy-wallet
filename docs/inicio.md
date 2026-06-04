@@ -1,6 +1,6 @@
 # Inicio: Documentación Central
 
-Bienvenido a Fortris. Esta es tu guía para entender el proyecto.
+Bienvenido a Wallet hereditaria con Safe. Esta es tu guía para entender el proyecto.
 
 ## Mision
 
@@ -19,7 +19,7 @@ Un sistema legal y seguro donde los usuarios puedan transferir sus activos cript
 
 ### Estrategia
 
-- [Brainstorming: Fortris - Wallet Hereditaria](brainstorming.md)
+- [Brainstorming: Wallet hereditaria con Safe - Wallet Hereditaria](brainstorming.md)
   Síntesis del enfoque, flujo híbrido, wireframes, casos de uso
 
 ### Técnica

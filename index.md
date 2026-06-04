@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Fortris
+title: Wallet hereditaria con Safe
 ---
 
-# Fortris: Wallet Hereditaria EIP-4337
+# Wallet hereditaria con Safe
 
 Investigación y desarrollo de solución de wallet criptográfica hereditaria basada en ERC-4337.
 

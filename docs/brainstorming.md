@@ -1,4 +1,4 @@
-# Brainstorming: Fortris - Wallet Hereditaria
+# Brainstorming: Wallet hereditaria con Safe
 
 ## La Síntesis
 
@@ -17,7 +17,7 @@ Usuario va a notario y obtiene certificado de últimas voluntades (PKI firmado)
 
 ### FASE 2: Validación On-Chain
 
-- Fortris recibe certificado
+- Wallet hereditaria con Safe recibe certificado
 - Oráculo verifica firma electrónica
 - Instala módulo ERC-4337 de herencia
 
@@ -26,7 +26,7 @@ Usuario va a notario y obtiene certificado de últimas voluntades (PKI firmado)
 - Dead-man's switch: 6 meses inactividad
 - Beneficiarios: los designados en notaría
 - Pesos: especificados en testamento
-- Paymaster: Fortris patrocina gas
+- Paymaster: Wallet hereditaria con Safe patrocina gas
 
 ### FASE 4: Ejecución (Fallecimiento)
 
@@ -43,7 +43,7 @@ Usuario va a notario y obtiene certificado de últimas voluntades (PKI firmado)
 
 ## Diferenciadores vs Alternativas
 
-| Fortris                               | Safe | Gnosis  | Otros   |
+| Wallet hereditaria con Safe           | Safe | Gnosis  | Otros   |
 | ------------------------------------- | ---- | ------- | ------- |
 | Testamento notarial legalmente válido | ✗    | ✗       | ✗       |
 | PKI oficial (Ministerio)              | ✓    | ✗       | ✗       |
@@ -73,13 +73,13 @@ Usuario va a notario y obtiene certificado de últimas voluntades (PKI firmado)
 
 - Usuario va a notario y hace nuevo testamento
 - Obtiene nuevo certificado PKI
-- Sube nuevo certificado a Fortris
+- Sube nuevo certificado a Wallet hereditaria con Safe
 - Oráculo valida, beneficiarios se actualizan
 
 ## Arquitectura General
 
 ```
-Frontend (Fortris app)
+Frontend (Wallet hereditaria con Safe app)
     ↓
 [Carga certificado PKI]
     ↓
@@ -123,7 +123,7 @@ Heredero firma reclamación
 Paymaster valida transacción
     ↓
 ¿Quién paga gas?
-    Option A: Fortris (tercera parte)
+    Option A: Wallet hereditaria con Safe (tercera parte)
     Option B: Token ERC-20 + conversión a ETH
     Option C: Asset heredado paga su propio gas
 ```

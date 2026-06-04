@@ -1,4 +1,4 @@
-# Fortris
+# Wallet hereditaria con Safe
 
 <div align="left">
     <img src="https://img.shields.io/badge/Solidity-0.8-363636?style=for-the-badge&logo=solidity" alt="Solidity" />
@@ -17,7 +17,7 @@
 
 ## Actores del Sistema
 
-El modelo de Fortris tiene cuatro tipos de participantes con responsabilidades distintas. El **Titular** es el propietario de la smart account; los **Beneficiarios** son los herederos designados con pesos porcentuales; el **Oráculo** valida documentación notarial off-chain; el **Paymaster** cubre el gas de las operaciones de herencia.
+El modelo de Wallet hereditaria con Safe tiene cuatro tipos de participantes con responsabilidades distintas. El **Titular** es el propietario de la smart account; los **Beneficiarios** son los herederos designados con pesos porcentuales; el **Oráculo** valida documentación notarial off-chain; el **Paymaster** cubre el gas de las operaciones de herencia.
 
 | Actor            | Rol                                | Acción principal                                    | Necesita ETH |
 | ---------------- | ---------------------------------- | --------------------------------------------------- | ------------ |

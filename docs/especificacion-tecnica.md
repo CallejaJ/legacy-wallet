@@ -387,7 +387,7 @@ Día 100: Usuario quiere cambiar herederos
         └─ Va a notario, hace nuevo testamento
         └─ Obtiene nuevo certificado (PKI nueva)
 
-Día 101: Usuario sube nuevo certificado a Fortris
+Día 101: Usuario sube nuevo certificado a Wallet hereditaria con Safe
         └─ Oráculo valida, llama revalidateCertificate()
         └─ certificateHash y beneficiarios actualizados
         └─ Nueva configuración en vigencia
