@@ -1,99 +1,76 @@
 # Inicio: Documentación Central
 
-Bienvenido a Wallet hereditaria con Safe. Esta es tu guía para entender el proyecto.
+Bienvenido a **Legacy Wallet**. Esta es tu guía para entender el proyecto de herencia digital criptográfica estructurado sobre la infraestructura de Safe.
 
-## Mision
+## Misión
 
-Investigación y desarrollo de una solución de wallet criptográfica hereditaria que permita:
+Investigación y desarrollo de una solución de herencia criptográfica basada en Safe y Safe Modules que permita:
 
-- Formalizar testamentos digitales con PKI notarial
-- Crear smart accounts con ERC-4337
-- Designar múltiples herederos con distribución automática
-- Realizar transacciones gasless para herederos
+- Vincular testamentos notariales digitales (certificados PKI) con una Safe Account.
+- Configurar reglas de inactividad (fe de vida / dead-man's switch) y quórums de herederos.
+- Distribuir de forma automática y atómica múltiples activos (ETH y tokens ERC-20).
+- Permitir a los herederos reclamar de manera gasless (sin ETH propio) a través del Safe Relay Kit.
 
-## Vision
+## Visión
 
-Un sistema legal y seguro donde los usuarios puedan transferir sus activos cripto a herederos designados de forma automatizada, confiable y sin fricciones técnicas.
+Un sistema de herencia digital legal, robusto y descentralizado, que elimine la fricción técnica y proteja los activos de los usuarios de por vida mediante infraestructuras auditadas y estándares del ecosistema Web3.
 
 ## Documentación Disponible
 
-### Estrategia
+### Estrategia y Diseño
 
-- [Brainstorming: Wallet hereditaria con Safe - Wallet Hereditaria](brainstorming.md)
-  Síntesis del enfoque, flujo híbrido, wireframes, casos de uso
-
-### Técnica
-
-- [InheritanceModule - Especificación ERC-4337](especificacion-tecnica.md)
-  Funciones Solidity, flujo de estados, testing, seguridad
-
-### Planificación
-
-- [Roadmap: 4 Sprints](roadmap.md)
-  Sprint 1 (Diseño) → Sprint 4 (Demo)
-
-### Seguimiento
-
-- [Tareas y Progreso](tareas.md)
-  22 tareas organizadas por fase, categoría, prioridad
-
-### Decisiones
-
+- [Brainstorming: Legacy Wallet](brainstorming.md)
+  Análisis de casos de uso, flujos y arquitectura general.
 - [Decisiones del Proyecto](planificacion.md#decisiones-de-diseño-para-el-mvp-simplificadoeconómico)
-  15 preguntas críticas resueltas para el MVP
+  Las 15 decisiones críticas de negocio, técnica y legal tomadas para el desarrollo del MVP.
 
-## Stack Técnico Propuesto
+### Especificación Técnica
 
-**Frontend:** React/TypeScript + Paskeys para firmado de transacciones
+- [InheritanceModule - Especificación](especificacion-tecnica.md)
+  Lógica de Smart Contracts, funciones del Safe Module y estrategia de seguridad.
 
-**Backend:** Node.js + Validación PKI de certificados notariales
+### Planificación y Progreso
 
-**Smart Contracts:**
+- [Planificación con Safe (6 semanas)](planificacion.md)
+  Detalle semanal del plan de trabajo de desarrollo individual.
+- [Roadmap de Implementación](roadmap.md)
+  Timeline, hitos del proyecto y cronograma semanal del 5 de Junio al 17 de Julio.
 
-- ERC-4337 (Account Abstraction - smart accounts)
-- InheritanceModule (módulo custom de herencia)
-- Paymaster (para transacciones gasless)
+## Stack Técnico Adoptado (MVP)
 
-**Cadenas:** Ethereum, Polygon, Arbitrum (EVM compatible)
+**Frontend:** React 18 + TypeScript 5, conectado a los SDKs de Safe.
+**Backend/Oráculo:** Node.js 20 + TypeScript, validación de firmas PKI X.509.
+**Smart Contracts & SDKs (Safe):**
 
-**Oráculo:** A definir (Chainlink o solución custom)
+- **Safe Account**: Cuenta multisig del titular que custodia los activos.
+- **InheritanceModule**: Módulo custom de Safe para gestionar la inactividad y quórums.
+- **Safe Protocol Kit**: Gestión e instalación del módulo en la cuenta Safe.
+- **Safe API Kit**: Coordinación y almacenamiento de co-firmas off-chain de herederos.
+- **Safe Relay Kit (Gelato / ERC-4337)**: Sponsorización de gas para reclamación de beneficiarios.
+  **Red de Pruebas:** Ethereum Sepolia Testnet.
 
-## Fases del Proyecto
+## Fases del Flujo de Legado
 
-### Fase 1: Formalización Legal
+### Fase 1: Configuración Notarial
 
-Usuario obtiene certificado notarial digital firmado con PKI
+El titular sube su certificado de testamento (PKI) y configura las condiciones (herederos, pesos en BPS, tiempo de inactividad y quórum de firmas). El oráculo valida el certificado y configura el módulo on-chain.
 
-### Fase 2: Validación On-Chain
+### Fase 2: Mantenimiento (Fe de vida)
 
-Oráculo verifica certificado y instala módulo ERC-4337
+El titular interactúa periódicamente con la dApp llamando a `submitProofOfLife()`, lo que resetea el contador de inactividad.
 
-### Fase 3: Activación Smart Contract
+### Fase 3: Reclamación
 
-Módulo se arma con beneficiarios, pesos, dead-man's switch
+Tras pasar el tiempo de inactividad establecido, un heredero inicia una reclamación. Arranca el período de gracia de 14 días y los herederos firman digitalmente.
 
-### Fase 4: Ejecución
+### Fase 4: Payout y Cierre
 
-Heredero inicia reclamación, quórum firma, payout atómico
-
-## Roadmap General
-
-- **Sprint 1 (Semana 1):** Diseño (wireframes, diagramas)
-- **Sprint 2 (Semana 2-3):** Backend + Oráculo
-- **Sprint 3 (Semana 4-5):** Frontend
-- **Sprint 4 (Semana 6-7):** Demo + Presentación
-
-## Como Contribuir
-
-1. Lee la documentación relevante
-2. Consulta el tablero de tareas
-3. Revisa las decisiones del proyecto
-4. Actualiza el progreso en el repositorio
+Al alcanzarse el quórum de firmas y finalizar el período de gracia, cualquier beneficiario puede ejecutar `executePayout()` de forma gasless. Los activos de la Safe se distribuyen atómicamente y la herencia se cierra.
 
 ## Contacto
 
-| Nombre | Rol |
-|---|---|
+| Nombre            | Rol   |
+| ----------------- | ----- |
 | **Jorge Calleja** | Autor |
 
 ---
