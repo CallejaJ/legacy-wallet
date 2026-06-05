@@ -1,10 +1,10 @@
-# Planificación: Implementación con Safe (6 semanas)
+# Planificación: Implementación con Safe (1 semana)
 
 ## Contexto
 
 Wallet hereditaria con Safe es una wallet de herencia digital. El plan original usaba ERC-4337 puro con un `InheritanceModule` custom. El diseño actual utiliza **Safe** como infraestructura de smart account.
 
-Al realizar el desarrollo de forma individual, el cronograma se extiende a **6 semanas**, permitiendo abordar de manera secuencial los distintos componentes del sistema: Smart Contracts, Backend/Oráculo, Frontend e Integración.
+Al realizar el desarrollo de forma individual, el cronograma se compacta a **1 semana (7 días)**, abordando de manera ágil los distintos componentes del sistema: Smart Contracts, Backend/Oráculo, Frontend e Integración.
 
 **Qué cambia con Safe:**
 
@@ -58,24 +58,23 @@ Todo el proyecto es desarrollado por **un único desarrollador**, distribuyendo 
 
 ```mermaid
 gantt
-    title Plan de Trabajo (6 Semanas - 1 Desarrollador)
+    title Plan de Trabajo (1 Semana - 1 Desarrollador)
     dateFormat  X
     axisFormat %d
     section Smart Contracts
-    Setup y Esqueleto del Módulo (S1) :active, s1, 0, 7
-    Lógica Core y Tests Foundry (S2)  :active, s2, 7, 14
+    Esqueleto y Lógica Core (Día 1-2)  :active, d1, 0, 2
     section Backend
-    Setup y Validación PKI (S3)       :active, s3, 14, 21
-    Integración Safe API Kit (S4)     :active, s4, 21, 28
+    Setup y Validación PKI (Día 3)       :active, d2, 2, 3
+    Integración Safe API Kit (Día 4)     :active, d3, 3, 4
     section Frontend
-    Desarrollo UI y Safe SDKs (S5)    :active, s5, 28, 35
+    Desarrollo UI y Safe SDKs (Día 5)    :active, d4, 4, 5
     section Integración
-    Integración E2E y Demo (S6)       :active, s6, 35, 42
+    Integración E2E y Demo (Día 6-7)       :active, d5, 5, 7
 ```
 
 ---
 
-## Semana 1 — Configuración y Smart Contract Base
+## Día 1 — Configuración y Smart Contract Base
 
 ### Objetivos:
 
@@ -95,7 +94,7 @@ gantt
 
 ---
 
-## Semana 2 — Lógica Core de Smart Contracts & Tests
+## Día 2 — Lógica Core de Smart Contracts & Tests
 
 ### Objetivos:
 
@@ -122,7 +121,7 @@ gantt
 
 ---
 
-## Semana 3 — Backend / Oráculo (Setup y PKI)
+## Día 3 — Backend / Oráculo (Setup y PKI)
 
 ### Objetivos:
 
@@ -140,7 +139,7 @@ gantt
 
 ---
 
-## Semana 4 — Backend / Integración con Safe API Kit
+## Día 4 — Backend / Integración con Safe API Kit
 
 ### Objetivos:
 
@@ -162,7 +161,7 @@ gantt
 
 ---
 
-## Semana 5 — Frontend & Integración con Safe SDKs
+## Día 5 — Frontend & Integración con Safe SDKs
 
 ### Objetivos:
 
@@ -185,7 +184,7 @@ gantt
 
 ---
 
-## Semana 6 — Integración E2E, Pruebas y Demo
+## Día 6 y 7 — Integración E2E, Pruebas y Demo
 
 ### Objetivos:
 
@@ -212,13 +211,13 @@ gantt
 Al trabajar en solitario, el desarrollo sigue un camino crítico estrictamente lineal, lo que minimiza problemas de integración:
 
 ```
-S1-S2: Smart Contracts desplegados y verificados
+D1-D2: Smart Contracts desplegados y verificados
           ↓
-S3-S4: Oráculo y API Kit funcionando contra Sepolia
+D3-D4: Oráculo y API Kit funcionando contra Sepolia
           ↓
-S5: Frontend consume API del oráculo e interactúa con el contrato
+D5: Frontend consume API del oráculo e interactúa con el contrato
           ↓
-S6: Pruebas de integración E2E, documentación y demo
+D6-D7: Pruebas de integración E2E, documentación y demo
 ```
 
 ---

@@ -34,4 +34,4 @@ El núcleo de **Legacy Wallet** se basa en delegar la custodia y la lógica en c
 - Estado: En curso
 - Prioridad: Alta
 - Fecha inicio: 05 Junio 2026
-- Fecha estimada: 17 Julio 2026
+- Fecha estimada: 12 Junio 2026

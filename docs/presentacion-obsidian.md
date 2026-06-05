@@ -110,18 +110,18 @@ Oráculo: A definir (Chainlink o custom)
 
 ---
 
-## Slide 9: Roadmap (Plan de 6 Semanas)
+## Slide 9: Roadmap (Plan de 1 Semana)
 
-Semanas 1-2: Smart Contracts & Tests
+Días 1-2: Smart Contracts & Tests
 - Setup Foundry, InheritanceModule base y tests unitarios completos
 
-Semanas 3-4: Backend & API Kit
+Días 3-4: Backend & API Kit
 - Validación PKI de certificados y endpoints de propuesta de Tx
 
-Semana 5: Frontend & Safe SDKs
+Día 5: Frontend & Safe SDKs
 - Desarrollo UI con React y conexión con API/Protocol/Relay Kit
 
-Semana 6: Integración E2E y Demo
+Días 6-7: Integración E2E y Demo
 - Conexión de todo el flujo, QA en testnet y grabación demo
 
 ---
@@ -182,12 +182,12 @@ Mitigaciones:
 ## Slide 14: Cronograma
 
 5 Junio: Inicio
-17 Julio: Presentación final
+12 Junio: Presentación final
 
-Semana 1-2: Jun 5-19 (Smart Contracts & Tests)
-Semana 3-4: Jun 19 - Jul 3 (Backend & API Kit)
-Semana 5: Jul 3-10 (Frontend & Safe SDKs)
-Semana 6: Jul 10-17 (Integración E2E y Demo)
+Día 1-2: Jun 5-6 (Smart Contracts & Tests)
+Día 3-4: Jun 7-8 (Backend & API Kit)
+Día 5: Jun 9 (Frontend & Safe SDKs)
+Día 6-7: Jun 10-12 (Integración E2E y Demo)
 
 ---
 

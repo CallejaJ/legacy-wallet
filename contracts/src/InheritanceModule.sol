@@ -60,7 +60,7 @@ contract InheritanceModule {
         lastProofOfLife = block.timestamp;
     }
 
-    // --- Funciones Core (Vacías para implementar lógica en Semana 2) ---
+    // --- Funciones Core (Vacías para implementar lógica en Día 2) ---
 
     /**
      * @notice Configura los herederos y umbrales. Llamado por el oráculo.

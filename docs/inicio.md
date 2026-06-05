@@ -31,10 +31,10 @@ Un sistema de herencia digital legal, robusto y descentralizado, que elimine la 
 
 ### Planificación y Progreso
 
-- [Planificación con Safe (6 semanas)](planificacion.md)
-  Detalle semanal del plan de trabajo de desarrollo individual.
+- [Planificación con Safe (1 semana)](planificacion.md)
+  Detalle diario del plan de trabajo de desarrollo individual.
 - [Roadmap de Implementación](roadmap.md)
-  Timeline, hitos del proyecto y cronograma semanal del 5 de Junio al 17 de Julio.
+  Timeline, hitos del proyecto y cronograma diario del 5 de Junio al 12 de Junio.
 
 ## Stack Técnico Adoptado (MVP)
 

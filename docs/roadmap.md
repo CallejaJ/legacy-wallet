@@ -1,6 +1,6 @@
-# Roadmap: Plan de Implementación de 6 Semanas (1 Desarrollador)
+# Roadmap: Plan de Implementación de 1 Semana (1 Desarrollador)
 
-## Semana 1 — Configuración y Smart Contract Base (5 Jun - 12 Jun)
+## Día 1 — Configuración y Smart Contract Base (5 Jun)
 
 **Objetivo:** Establecer el entorno de desarrollo y crear el esqueleto del módulo de herencia para Safe.
 
@@ -16,7 +16,7 @@
 
 ---
 
-## Semana 2 — Lógica Core de Smart Contracts & Tests (12 Jun - 19 Jun)
+## Día 2 — Lógica Core de Smart Contracts & Tests (6 Jun)
 
 **Objetivo:** Desarrollar la lógica completa de herencia y validar mediante tests robustos.
 
@@ -31,7 +31,7 @@
 
 ---
 
-## Semana 3 — Backend / Oráculo (Setup y PKI) (19 Jun - 26 Jun)
+## Día 3 — Backend / Oráculo (Setup y PKI) (7 Jun)
 
 **Objetivo:** Configurar el backend y desarrollar la verificación criptográfica del certificado notarial.
 
@@ -46,7 +46,7 @@
 
 ---
 
-## Semana 4 — Backend / Integración con Safe API Kit (26 Jun - 3 Jul)
+## Día 4 — Backend / Integración con Safe API Kit (8 Jun)
 
 **Objetivo:** Permitir que el backend proponga y gestione transacciones utilizando el SDK de Safe.
 
@@ -61,7 +61,7 @@
 
 ---
 
-## Semana 5 — Frontend & Integración con Safe SDKs (3 Jul - 10 Jul)
+## Día 5 — Frontend & Integración con Safe SDKs (9 Jun)
 
 **Objetivo:** Crear la interfaz del usuario y conectarla con los smart contracts y el backend.
 
@@ -76,7 +76,7 @@
 
 ---
 
-## Semana 6 — Integración E2E, Pruebas y Demo (10 Jul - 17 Jul)
+## Día 6 y 7 — Integración E2E, Pruebas y Demo (10 Jun - 12 Jun)
 
 **Objetivo:** Conectar todo el flujo, realizar pruebas finales de integración y preparar la demo de entrega.
 
@@ -96,10 +96,10 @@
 
 ```
 05 Jun: Inicio del desarrollo
-19 Jun: Smart Contracts deployados y testeados al 100% (Hito 1)
-03 Jul: Backend / Oráculo integrado con Safe Transaction Service (Hito 2)
-10 Jul: Frontend funcional e integrado con Safe SDKs (Hito 3)
-17 Jul: Presentación final y PoC E2E funcionando (Hito 4)
+06 Jun: Smart Contracts deployados y testeados al 100% (Hito 1)
+08 Jun: Backend / Oráculo integrado con Safe Transaction Service (Hito 2)
+09 Jun: Frontend funcional e integrado con Safe SDKs (Hito 3)
+12 Jun: Presentación final y PoC E2E funcionando (Hito 4)
 ```
 
 ---
