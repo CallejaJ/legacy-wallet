@@ -37,13 +37,21 @@ contract InheritanceModule {
 
     // --- Modificadores ---
     modifier onlyOwner() {
-        require(msg.sender == owner, "Only owner can call");
+        _onlyOwner();
         _;
     }
 
     modifier onlyOracle() {
-        require(msg.sender == oracle, "Only oracle can call");
+        _onlyOracle();
         _;
+    }
+
+    function _onlyOwner() internal view {
+        require(msg.sender == owner, "Only owner can call");
+    }
+
+    function _onlyOracle() internal view {
+        require(msg.sender == oracle, "Only oracle can call");
     }
 
     constructor(address _oracle) {
@@ -63,41 +71,189 @@ contract InheritanceModule {
         uint256 _inactivityThreshold,
         uint256 _quorum
     ) external onlyOracle {
-        // TODO: Validar pesos sumen 10000 BPS, configurar variables y emitir evento.
+        require(_heirs.length == _weights.length, "Arrays length mismatch");
+        require(_heirs.length > 0, "No heirs configured");
+        require(_quorum > 0 && _quorum <= _heirs.length, "Invalid quorum");
+        require(_inactivityThreshold > 0, "Invalid inactivity threshold");
+        // Limpiar configuración previa de herederos si existía
+        for (uint256 i = 0; i < heirsList.length; i++) {
+            delete heirs[heirsList[i]];
+        }
+        delete heirsList;
+        uint256 totalWeight = 0;
+        for (uint256 i = 0; i < _heirs.length; i++) {
+            require(_heirs[i] != address(0), "Invalid heir address");
+            require(_weights[i] > 0, "Weight must be greater than 0");
+            totalWeight += _weights[i];
+
+            heirs[_heirs[i]] = HeirConfig({
+                weight: _weights[i],
+                hasSigned: false
+            });
+            heirsList.push(_heirs[i]);
+        }
+
+        require(totalWeight == 10000, "Weights must sum to 10000 BPS");
+        inactivityThreshold = _inactivityThreshold;
+        quorumRequired = _quorum;
+        lastProofOfLife = block.timestamp;
+        claimStartTimestamp = 0;
+        signedHeirsCount = 0;
+        emit InheritanceConfigured(_inactivityThreshold, _quorum);
     }
 
     /**
      * @notice El titular renueva su fe de vida. Resetea claims activos.
      */
     function submitProofOfLife() external onlyOwner {
-        // TODO: Actualizar lastProofOfLife y resetear claim en curso.
+        lastProofOfLife = block.timestamp;
+
+        if (claimStartTimestamp > 0) {
+            claimStartTimestamp = 0;
+            signedHeirsCount = 0;
+            for (uint256 i = 0; i < heirsList.length; i++) {
+                heirs[heirsList[i]].hasSigned = false;
+            }
+            emit ClaimCancelled();
+        }
+
+        emit ProofOfLifeSubmitted(block.timestamp);
     }
 
     /**
      * @notice Inicia el período de gracia si se superó el inactividadThreshold.
      */
     function initiateClaim() external {
-        // TODO: Validar inactividad y arrancar el período de gracia.
+        require(heirs[msg.sender].weight > 0, "Not a designated heir");
+        require(inactivityThreshold > 0, "Inheritance not configured");
+        require(
+            block.timestamp > lastProofOfLife + inactivityThreshold,
+            "Owner is not inactive yet"
+        );
+        require(claimStartTimestamp == 0, "Claim already initiated");
+        claimStartTimestamp = block.timestamp;
+        heirs[msg.sender].hasSigned = true;
+        signedHeirsCount = 1;
+        emit ClaimInitiated(msg.sender, block.timestamp);
+        emit ClaimSigned(msg.sender, 1);
     }
 
     /**
      * @notice Registra la firma de un beneficiario para el quórum.
      */
     function signClaim() external {
-        // TODO: Validar que sea heredero, registrar firma e incrementar contador.
+        require(claimStartTimestamp > 0, "Claim not initiated");
+        require(
+            block.timestamp <= claimStartTimestamp + 14 days,
+            "Grace period expired"
+        );
+        require(heirs[msg.sender].weight > 0, "Not a designated heir");
+        require(!heirs[msg.sender].hasSigned, "Already signed");
+        heirs[msg.sender].hasSigned = true;
+        signedHeirsCount++;
+        emit ClaimSigned(msg.sender, signedHeirsCount);
     }
 
     /**
-     * @notice Distribuye los fondos del Safe a los herederos y deshabilita el módulo.
+     * @notice Distribuye los fondos del Safe a los herederos según los pesos configurados.
+     * @param _assets Lista de direcciones de tokens ERC20 a distribuir (usa address(0) para ETH nativo).
      */
-    function executePayout() external {
-        // TODO: Validar quórum y tiempo, transferir ETH/ERC20 y desinstalar módulo.
+    function executePayout(address[] calldata _assets) external {
+        require(claimStartTimestamp > 0, "Claim not initiated");
+        require(
+            block.timestamp <= claimStartTimestamp + 14 days,
+            "Grace period expired"
+        );
+        require(signedHeirsCount >= quorumRequired, "Quorum not reached");
+        for (uint256 j = 0; j < _assets.length; j++) {
+            address asset = _assets[j];
+            if (asset == address(0)) {
+                // Distribución de ETH nativo
+                uint256 totalBalance = address(owner).balance;
+                if (totalBalance > 0) {
+                    for (uint256 i = 0; i < heirsList.length; i++) {
+                        address heir = heirsList[i];
+                        uint256 amount = (totalBalance * heirs[heir].weight) /
+                            10000;
+                        if (amount > 0) {
+                            require(
+                                ISafe(owner).execTransactionFromModule(
+                                    heir,
+                                    amount,
+                                    "",
+                                    ISafe.Operation.Call
+                                ),
+                                "ETH transfer failed"
+                            );
+                        }
+                    }
+                }
+            } else {
+                // Distribución de Tokens ERC20
+                uint256 totalBalance = IERC20(asset).balanceOf(owner);
+                if (totalBalance > 0) {
+                    for (uint256 i = 0; i < heirsList.length; i++) {
+                        address heir = heirsList[i];
+                        uint256 amount = (totalBalance * heirs[heir].weight) /
+                            10000;
+                        if (amount > 0) {
+                            bytes memory data = abi.encodeWithSelector(
+                                IERC20.transfer.selector,
+                                heir,
+                                amount
+                            );
+                            require(
+                                ISafe(owner).execTransactionFromModule(
+                                    asset,
+                                    0,
+                                    data,
+                                    ISafe.Operation.Call
+                                ),
+                                "ERC20 transfer failed"
+                            );
+                        }
+                    }
+                }
+            }
+        }
+        // Reseteamos el estado de reclamación tras la ejecución
+        claimStartTimestamp = 0;
+        emit PayoutExecuted(address(owner).balance);
     }
 
     /**
      * @notice Cancela el reclamo activo dentro del período de gracia (14 días).
      */
     function cancelClaim() external onlyOwner {
-        // TODO: Limpiar estado del claim.
+        require(claimStartTimestamp > 0, "No active claim");
+
+        claimStartTimestamp = 0;
+        signedHeirsCount = 0;
+        for (uint256 i = 0; i < heirsList.length; i++) {
+            heirs[heirsList[i]].hasSigned = false;
+        }
+
+        emit ClaimCancelled();
     }
+}
+
+// --- Interfaces para interactuar con Safe e ERC20 ---
+interface ISafe {
+    enum Operation {
+        Call,
+        DelegateCall
+    }
+
+    function execTransactionFromModule(
+        address to,
+        uint256 value,
+        bytes calldata data,
+        Operation operation
+    ) external returns (bool success);
+}
+
+interface IERC20 {
+    function balanceOf(address account) external view returns (uint256);
+
+    function transfer(address to, uint256 value) external returns (bool);
 }
