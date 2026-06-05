@@ -90,14 +90,12 @@ Heredero inicia reclamación, quórum firma, payout atómico
 3. Revisa las decisiones del proyecto
 4. Actualiza el progreso en el repositorio
 
-## Contactos
+## Contacto
 
 | Nombre | Rol |
 |---|---|
-| **Jaime Cabrera** | Co-autor |
-| **Martina Rojas** | Co-autora |
-| **Jorge Calleja** | Co-autor |
+| **Jorge Calleja** | Autor |
 
 ---
 
-Última actualización: 04 Junio 2026
+Última actualización: 05 Junio 2026
