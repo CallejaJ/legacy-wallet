@@ -37,10 +37,10 @@ Un sistema legal y seguro donde los usuarios puedan transferir sus activos cript
 - [Tareas y Progreso](tareas.md)
   22 tareas organizadas por fase, categoría, prioridad
 
-### Pendientes
+### Decisiones
 
-- [Preguntas sin Resolver](preguntas-pendientes.md)
-  15 preguntas críticas que necesitan respuesta
+- [Decisiones del Proyecto](planificacion.md#decisiones-de-diseño-para-el-mvp-simplificadoeconómico)
+  15 preguntas críticas resueltas para el MVP
 
 ## Stack Técnico Propuesto
 
@@ -87,7 +87,7 @@ Heredero inicia reclamación, quórum firma, payout atómico
 
 1. Lee la documentación relevante
 2. Consulta el tablero de tareas
-3. Responde las preguntas pendientes
+3. Revisa las decisiones del proyecto
 4. Actualiza el progreso en el repositorio
 
 ## Contactos

@@ -2,7 +2,7 @@
 
 ## Contexto
 
-Wallet hereditaria con Safe es una wallet de herencia digital. El plan original usaba ERC-4337 puro con un `InheritanceModule` custom. Los tutores del proyecto de empresa piden reutilizar **Safe** como infraestructura de smart account.
+Wallet hereditaria con Safe es una wallet de herencia digital. El plan original usaba ERC-4337 puro con un `InheritanceModule` custom. El diseño actual utiliza **Safe** como infraestructura de smart account.
 
 Al realizar el desarrollo de forma individual, el cronograma se extiende a **6 semanas**, permitiendo abordar de manera secuencial los distintos componentes del sistema: Smart Contracts, Backend/Oráculo, Frontend e Integración.
 
@@ -22,6 +22,33 @@ Al realizar el desarrollo de forma individual, el cronograma se extiende a **6 s
 | `@safe-global/api-kit`      | Coordinar firmas entre herederos (Transaction Service) |
 | `@safe-global/relay-kit`    | Transacciones gasless para herederos                   |
 | Contrato Safe (on-chain)    | Smart account del titular + multisig                   |
+
+---
+
+## Decisiones de Diseño para el MVP (Simplificado/Económico)
+
+Para abordar el proyecto de forma ágil y económica, se han adoptado las siguientes decisiones arquitectónicas y de diseño:
+
+### Decisiones Técnicas
+1. **Oráculo**: Solución custom (un backend propio en Node.js que expone un endpoint REST para recibir/validar certificados y proponer transacciones en la red). Cero dependencias complejas y sin costes de Chainlink.
+2. **Cadena**: **Ethereum Sepolia Testnet**. El gas es gratuito vía faucets, facilitando el desarrollo y las pruebas E2E.
+3. **Fuente de verdad**: La dApp solo ejecuta la distribución que indique el certificado notarial (PKI). No se permite edición en frontend que lo contradiga.
+4. **Modificaciones**: Nueva validación del certificado PKI en el oráculo para actualizar la configuración en blockchain.
+5. **Revocación**: El titular puede desinstalar o desactivar el módulo directamente desde su Safe (on-chain).
+6. **Inactividad**: Período fijo de 6 meses para el MVP.
+
+### Decisiones Legales
+7. **Responsabilidad**: Descargo de responsabilidad (Disclaimer) explícito indicando software de pruebas/MVP.
+8. **GDPR/Privacidad**: Solo se almacenan Ethereum addresses y pesos on-chain. Los datos personales del certificado se procesan en memoria en el backend y no se persisten.
+9. **Impugnación**: Offline; el smart contract ejecuta estrictamente la distribución matemática configurada.
+10. **Menores de edad**: Sin lógica de vesting o custodia on-chain. Distribución directa; control real de claves/wallet gestionado offline por sus tutores.
+
+### Decisiones de Negocio y Casos Extremos
+11. **Costes notariales**: Para el MVP se usará un certificado autofirmado/de prueba generado localmente para simular la validación sin costes.
+12. **Fe de vida (Revalidación)**: El titular interactúa periódicamente con la dApp y envía la transacción `submitProofOfLife()`.
+13. **Desaparición de herederos**: Quórum de reclamación a 1/N firmas para evitar el bloqueo del cobro.
+14. **Cross-chain**: Únicamente single-chain (Sepolia) para el MVP.
+15. **Recuperación**: Delegado 100% en los mecanismos nativos de Safe Recovery.
 
 ---
 

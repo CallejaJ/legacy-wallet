@@ -199,7 +199,7 @@ Semana 6: Jul 10-17 (Integración E2E y Demo)
 
 ## Slide 16: Próximos Pasos
 
-1. Responder 15 preguntas con tutores
+1. Responder preguntas críticas
 2. Validar stack técnico
 3. Comenzar Sprint 1 (Diseño)
 4. Asignar responsables
@@ -237,6 +237,6 @@ Cada --- representa una nueva slide
 Documentación: /docs
 Especificación Técnica: docs/especificacion-tecnica.md
 Brainstorming: docs/brainstorming.md
-Preguntas Pendientes: docs/preguntas-pendientes.md
+Decisiones del Proyecto: docs/planificacion.md#decisiones-de-diseño-para-el-mvp-simplificadoeconómico
 
 GitHub: https://github.com/CallejaJ/wallet-hereditaria

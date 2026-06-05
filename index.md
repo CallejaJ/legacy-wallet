@@ -15,8 +15,8 @@ Investigación y desarrollo de solución de wallet criptográfica hereditaria ba
 - [ERC-4337: EOA vs Smart Accounts](docs/erc4337-flujos.md)
 - [Roadmap: 4 Sprints](docs/roadmap.md)
 - [Tareas y Seguimiento](docs/tareas.md)
-- [Preguntas Pendientes](docs/preguntas-pendientes.md)
-- [Planificación: Implementación con Safe](docs/reparto-tareas-safe.md)
+- [Decisiones del Proyecto](docs/planificacion.md#decisiones-de-diseño-para-el-mvp-simplificadoeconómico)
+- [Planificación: Implementación con Safe](docs/planificacion.md)
 
 ## Estado
 
