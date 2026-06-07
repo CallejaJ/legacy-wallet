@@ -61,8 +61,7 @@ contract InheritanceModuleTest is Test {
         token = new MockERC20();
 
         // Desplegar el módulo estableciendo al MockSafe como el propietario (owner)
-        vm.prank(address(safe));
-        module = new InheritanceModule(oracle);
+        module = new InheritanceModule(oracle, address(safe));
 
         heirs = new address[](2);
         heirs[0] = heir1;

@@ -54,9 +54,9 @@ contract InheritanceModule {
         require(msg.sender == oracle, "Only oracle can call");
     }
 
-    constructor(address _oracle) {
+    constructor(address _oracle, address _safe) {
         oracle = _oracle;
-        owner = msg.sender; // Inicialmente asignado al deployer
+        owner = _safe;
         lastProofOfLife = block.timestamp;
     }
 
