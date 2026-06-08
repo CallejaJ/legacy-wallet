@@ -99,17 +99,16 @@ export function Dashboard() {
 
   return (
     <div className="page-container">
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px", flexWrap: "wrap", gap: "12px" }}>
+      <div className="page-header-row">
         <div>
-          <h1 className="title-gradient" style={{ margin: 0 }}>Mi Bóveda Hereditaria</h1>
-          <p className="subtitle" style={{ margin: 0 }}>
+          <h1 className="title-gradient no-margin">Mi Bóveda Hereditaria</h1>
+          <p className="subtitle no-margin">
             Mantenimiento de fe de vida, configuración y activación de Safe.
           </p>
         </div>
-        <button 
-          className="btn btn-secondary" 
+        <button
+          className="btn btn-secondary btn-with-icon"
           onClick={() => setShowGuide(true)}
-          style={{ display: "flex", alignItems: "center", gap: "6px" }}
         >
           📖 Guía de Despliegue
         </button>
@@ -275,54 +274,54 @@ export function Dashboard() {
             <button className="modal-close-btn" onClick={() => setShowGuide(false)}>
               &times;
             </button>
-            <h2 style={{ marginBottom: "20px", display: "flex", alignItems: "center", gap: "8px" }}>
+            <h2 className="guide-title">
               📖 Guía de Configuración y Despliegue
             </h2>
-            <p className="description" style={{ marginBottom: "24px" }}>
+            <p className="description guide-intro">
               Sigue estos pasos para desplegar tu Módulo de Herencia y configurar tu Safe en Sepolia Testnet.
             </p>
 
             <div className="guide-step">
-              <h3 style={{ color: "var(--accent)" }}>1. Obtener Sepolia ETH de Prueba</h3>
+              <h3 className="accent-text">1. Obtener Sepolia ETH de Prueba</h3>
               <p>
                 Tu cuenta de Privy necesita ETH de pruebas para pagar las transacciones. Copia tu dirección de la barra superior e introduce fondos de prueba usando un grifo gratuito:
               </p>
-              <ul style={{ margin: "8px 0 0 20px", padding: 0 }}>
-                <li><a href="https://sepoliafaucet.com/" target="_blank" rel="noreferrer" style={{ color: "var(--accent)" }}>Alchemy Sepolia Faucet</a></li>
-                <li><a href="https://faucet.quicknode.com/drip" target="_blank" rel="noreferrer" style={{ color: "var(--accent)" }}>QuickNode Sepolia Faucet</a></li>
+              <ul className="guide-list">
+                <li><a href="https://sepoliafaucet.com/" target="_blank" rel="noopener noreferrer" className="accent-text">Alchemy Sepolia Faucet</a></li>
+                <li><a href="https://faucet.quicknode.com/drip" target="_blank" rel="noopener noreferrer" className="accent-text">QuickNode Sepolia Faucet</a></li>
               </ul>
             </div>
 
             <div className="guide-step">
-              <h3 style={{ color: "var(--accent)" }}>2. Exportar Clave Privada a MetaMask</h3>
+              <h3 className="accent-text">2. Exportar Clave Privada a MetaMask</h3>
               <p>
                 Haz clic en el botón <strong>"Exportar Clave"</strong> en la esquina superior derecha de esta app. Sigue las instrucciones de Privy para ver y copiar tu clave privada. Luego, impórtala en MetaMask en la opción "Importar Cuenta".
               </p>
             </div>
 
             <div className="guide-step">
-              <h3 style={{ color: "var(--accent)" }}>3. Crear tu Safe Account</h3>
+              <h3 className="accent-text">3. Crear tu Safe Account</h3>
               <p>
-                Ve a la web de Safe: <a href="https://app.safe.global/" target="_blank" rel="noreferrer" style={{ color: "var(--accent)" }}>app.safe.global</a>. Conecta tu MetaMask (con tu cuenta de Privy seleccionada). Elige la red <strong>Sepolia</strong>, haz clic en "Create account" y sigue los pasos para crear tu Safe 1/1. Al finalizar, copia la dirección de tu Safe.
+                Ve a la web de Safe: <a href="https://app.safe.global/" target="_blank" rel="noopener noreferrer" className="accent-text">app.safe.global</a>. Conecta tu MetaMask (con tu cuenta de Privy seleccionada). Elige la red <strong>Sepolia</strong>, haz clic en "Create account" y sigue los pasos para crear tu Safe 1/1. Al finalizar, copia la dirección de tu Safe.
               </p>
             </div>
 
             <div className="guide-step">
-              <h3 style={{ color: "var(--accent)" }}>4. Desplegar el Contrato del Módulo de Herencia</h3>
+              <h3 className="accent-text">4. Desplegar el Contrato del Módulo de Herencia</h3>
               <p>
                 En tu terminal, navega al directorio de contratos y despliega el contrato en Sepolia indicando tu clave privada de MetaMask y las direcciones correspondientes como argumentos:
               </p>
-              <code className="guide-code" style={{ whiteSpace: "pre-wrap", display: "block", background: "var(--bg)", border: "1px solid var(--border)", padding: "10px", borderRadius: "6px", margin: "10px 0" }}>
+              <code className="guide-code">
                 cd contracts{"\n"}
                 forge create src/InheritanceModule.sol:InheritanceModule --rpc-url https://ethereum-sepolia-rpc.publicnode.com --private-key &lt;TU_CLAVE_PRIVADA_METAMASK&gt; --broadcast --constructor-args 0x1343c2E7F8b234af7676C8D45faFAB9ce7532686 &lt;DIRECCIÓN_DE_TU_SAFE&gt;
               </code>
-              <p style={{ marginTop: "8px", fontSize: "12px", opacity: 0.8 }}>
+              <p className="guide-note">
                 * Nota: 0x1343...2686 es tu dirección de Gmail que actúa como oráculo de firmas.
               </p>
             </div>
 
             <div className="guide-step">
-              <h3 style={{ color: "var(--accent)" }}>5. Activar el Módulo en la dApp</h3>
+              <h3 className="accent-text">5. Activar el Módulo en la dApp</h3>
               <p>
                 Pega la dirección de tu Safe y la dirección del módulo recién desplegado en el panel "Direcciones de Trabajo". Luego ve a "Registrar Herencia", configura tus herederos y pulsa registrar. Finalmente, vuelve a "Mi Safe", sincroniza y pulsa "Confirmar &amp; Activar Módulo en Safe" para culminar la activación.
               </p>
