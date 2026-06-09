@@ -100,4 +100,39 @@ El proyecto está organizado de forma monorrepo:
 
 ---
 
+## Deployment
+
+El proyecto está desplegado con arquitectura separada: frontend estático en **Vercel** y backend API en **Render**.
+
+| Servicio | Plataforma | URL |
+| --- | --- | --- |
+| Frontend | Vercel | [https://legacy-wallet-uma.vercel.app](https://legacy-wallet-uma.vercel.app) |
+| Backend / Oráculo | Render | [https://legacy-wallet-backend.onrender.com](https://legacy-wallet-backend.onrender.com) |
+
+### Frontend (Vercel)
+
+- **Root Directory**: `frontend`
+- **Framework**: Vite
+- **Install Command**: `npm install --legacy-peer-deps` (o usar `.npmrc` con `legacy-peer-deps=true`)
+- **Build Command**: `tsc -b && vite build`
+- **Variables de entorno**:
+  | Variable | Descripción |
+  | --- | --- |
+  | `VITE_ORACLE_API_URL` | URL del backend/oráculo (ej: `https://legacy-wallet-backend.onrender.com`) |
+
+### Backend (Render)
+
+- **Root Directory**: `backend`
+- **Runtime**: Node
+- **Build Command**: `npm install && npm run build`
+- **Start Command**: `npm run start`
+- **Variables de entorno**:
+  | Variable | Descripción |
+  | --- | --- |
+  | `PORT` | Puerto del servidor (default: `3001`) |
+  | `RPC_URL_SEPOLIA` | URL del nodo RPC de Sepolia |
+  | `ORACLE_PRIVATE_KEY` | Clave privada de la wallet del oráculo |
+
+---
+
 Built for Ethereum / Safe — Jorge Calleja.

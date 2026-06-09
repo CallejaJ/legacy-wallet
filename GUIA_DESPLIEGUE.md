@@ -2,6 +2,15 @@
 
 Esta guía detalla los pasos necesarios para configurar, desplegar y activar el sistema de Bóveda Hereditaria (Safe + Módulo de Herencia + Oráculo PKI) en la red de pruebas **Ethereum Sepolia**.
 
+### 🌐 URLs de Producción
+
+| Servicio | URL |
+| --- | --- |
+| **Frontend (Vercel)** | [https://legacy-wallet-uma.vercel.app](https://legacy-wallet-uma.vercel.app) |
+| **Backend / Oráculo (Render)** | [https://legacy-wallet-backend.onrender.com](https://legacy-wallet-backend.onrender.com) |
+
+> **Nota:** Puedes usar la versión desplegada en producción o tu entorno local (`http://localhost:5173`) para seguir esta guía.
+
 ---
 
 ## Índice
@@ -27,7 +36,7 @@ Para utilizar el inicio de sesión con Gmail en producción (Vercel) y desarroll
    * **Orígenes autorizados de JavaScript:**
      * `http://localhost:5173` (Desarrollo local)
      * `https://auth.privy.io`
-     * `https://tu-app.vercel.app` (Dominio de producción en Vercel)
+     * `https://legacy-wallet-uma.vercel.app` (Dominio de producción en Vercel)
    * **URIs de redireccionamiento autorizados:**
      * `https://auth.privy.io/api/v1/oauth/callback`
 4. Pulsa **Crear** y copia el **Client ID** y **Client secret** generados.
@@ -41,7 +50,7 @@ Para utilizar el inicio de sesión con Gmail en producción (Vercel) y desarroll
 
 ## Paso 2: Obtener Sepolia ETH y Clave Privada de Privy
 
-1. Abre tu dApp en local (`http://localhost:5173`) e inicia sesión con Gmail.
+1. Abre tu dApp en producción ([https://legacy-wallet-uma.vercel.app](https://legacy-wallet-uma.vercel.app)) o en local (`http://localhost:5173`) e inicia sesión con Gmail.
 2. En la barra superior, haz clic sobre tu dirección pública truncada para copiar tu dirección completa (ej: `0x1343c2E7F8b234af7676C8D45faFAB9ce7532686`).
 3. Ve a un grifo gratuito y reclama fondos de prueba en Sepolia:
    * **[Alchemy Sepolia Faucet](https://sepoliafaucet.com/)**
@@ -85,7 +94,7 @@ El desplegador debe inyectar la dirección del oráculo y de la Safe en el const
 
 ## Paso 5: Configuración y Activación final en el Frontend
 
-1. Vuelve a tu dApp local (`http://localhost:5173`).
+1. Vuelve a tu dApp en producción ([https://legacy-wallet-uma.vercel.app](https://legacy-wallet-uma.vercel.app)) o en local (`http://localhost:5173`).
 2. En la pestaña **"Mi Safe"**, rellena los dos campos de entrada:
    * **Dirección de tu Safe Account:** La dirección obtenida en el Paso 3.
    * **Dirección del Módulo de Herencia:** La dirección obtenida en el Paso 4.
