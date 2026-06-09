@@ -76,9 +76,17 @@ export function Claim() {
       });
       await reloadData();
     } catch (err: unknown) {
-      setError(
-        err instanceof Error ? err.message : "Error al iniciar la reclamación.",
-      );
+      const isRejection = String(err).toLowerCase().includes("user rejected");
+      if (isRejection) {
+        setToast({
+          message: "Firma rechazada por el usuario. Transacción cancelada.",
+          type: "warning",
+        });
+      } else {
+        setError(
+          err instanceof Error ? err.message : "Error al iniciar la reclamación.",
+        );
+      }
     }
   };
 
@@ -92,7 +100,15 @@ export function Claim() {
       });
       await reloadData();
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Error al firmar.");
+      const isRejection = String(err).toLowerCase().includes("user rejected");
+      if (isRejection) {
+        setToast({
+          message: "Firma rechazada por el usuario. Transacción cancelada.",
+          type: "warning",
+        });
+      } else {
+        setError(err instanceof Error ? err.message : "Error al firmar.");
+      }
     }
   };
 
@@ -106,11 +122,19 @@ export function Claim() {
       });
       await reloadData();
     } catch (err: unknown) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Error al ejecutar la distribución.",
-      );
+      const isRejection = String(err).toLowerCase().includes("user rejected");
+      if (isRejection) {
+        setToast({
+          message: "Firma rechazada por el usuario. Transacción cancelada.",
+          type: "warning",
+        });
+      } else {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Error al ejecutar la distribución.",
+        );
+      }
     }
   };
 

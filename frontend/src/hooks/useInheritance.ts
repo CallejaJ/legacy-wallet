@@ -133,12 +133,17 @@ export function useInheritance(moduleAddress?: string) {
       await publicClient.waitForTransactionReceipt({ hash });
       return hash;
     } catch (err) {
-      const errorWithMsg = err as { shortMessage?: string; message?: string };
-      setError(
-        errorWithMsg.shortMessage ||
-          errorWithMsg.message ||
-          "Error al enviar fe de vida",
-      );
+      const isRejection = String(err).toLowerCase().includes("user rejected");
+      if (isRejection) {
+        setError("Firma rechazada por el usuario.");
+      } else {
+        const errorWithMsg = err as { shortMessage?: string; message?: string };
+        setError(
+          errorWithMsg.shortMessage ||
+            errorWithMsg.message ||
+            "Error al enviar fe de vida",
+        );
+      }
       throw err;
     } finally {
       setLoading(false);
@@ -164,12 +169,17 @@ export function useInheritance(moduleAddress?: string) {
       await publicClient.waitForTransactionReceipt({ hash });
       return hash;
     } catch (err) {
-      const errorWithMsg = err as { shortMessage?: string; message?: string };
-      setError(
-        errorWithMsg.shortMessage ||
-          errorWithMsg.message ||
-          "Error al iniciar reclamación",
-      );
+      const isRejection = String(err).toLowerCase().includes("user rejected");
+      if (isRejection) {
+        setError("Firma rechazada por el usuario.");
+      } else {
+        const errorWithMsg = err as { shortMessage?: string; message?: string };
+        setError(
+          errorWithMsg.shortMessage ||
+            errorWithMsg.message ||
+            "Error al iniciar reclamación",
+        );
+      }
       throw err;
     } finally {
       setLoading(false);
@@ -195,12 +205,17 @@ export function useInheritance(moduleAddress?: string) {
       await publicClient.waitForTransactionReceipt({ hash });
       return hash;
     } catch (err) {
-      const errorWithMsg = err as { shortMessage?: string; message?: string };
-      setError(
-        errorWithMsg.shortMessage ||
-          errorWithMsg.message ||
-          "Error al co-firmar",
-      );
+      const isRejection = String(err).toLowerCase().includes("user rejected");
+      if (isRejection) {
+        setError("Firma rechazada por el usuario.");
+      } else {
+        const errorWithMsg = err as { shortMessage?: string; message?: string };
+        setError(
+          errorWithMsg.shortMessage ||
+            errorWithMsg.message ||
+            "Error al co-firmar",
+        );
+      }
       throw err;
     } finally {
       setLoading(false);
@@ -226,12 +241,17 @@ export function useInheritance(moduleAddress?: string) {
       await publicClient.waitForTransactionReceipt({ hash });
       return hash;
     } catch (err) {
-      const errorWithMsg = err as { shortMessage?: string; message?: string };
-      setError(
-        errorWithMsg.shortMessage ||
-          errorWithMsg.message ||
-          "Error al ejecutar la distribución",
-      );
+      const isRejection = String(err).toLowerCase().includes("user rejected");
+      if (isRejection) {
+        setError("Firma rechazada por el usuario.");
+      } else {
+        const errorWithMsg = err as { shortMessage?: string; message?: string };
+        setError(
+          errorWithMsg.shortMessage ||
+            errorWithMsg.message ||
+            "Error al ejecutar la distribución",
+        );
+      }
       throw err;
     } finally {
       setLoading(false);

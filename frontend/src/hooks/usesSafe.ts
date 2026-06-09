@@ -206,11 +206,17 @@ export function useSafe(safeAddress?: string): UseSafeResult {
 
         return receipt;
       } catch (err) {
-        const errorWithMsg = err as { message?: string };
-        console.error("Error al firmar/ejecutar la transacción:", err);
-        setError(
-          errorWithMsg.message || "Error al firmar o ejecutar la transacción.",
-        );
+        const isRejection = String(err).toLowerCase().includes("user rejected");
+        if (isRejection) {
+          console.warn("Firma o transacción rechazada por el usuario.");
+          setError("Firma rechazada por el usuario. Transacción cancelada.");
+        } else {
+          console.error("Error al firmar/ejecutar la transacción:", err);
+          const errorWithMsg = err as { message?: string };
+          setError(
+            errorWithMsg.message || "Error al firmar o ejecutar la transacción.",
+          );
+        }
         throw err;
       } finally {
         setLoading(false);

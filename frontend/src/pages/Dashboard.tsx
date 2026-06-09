@@ -91,11 +91,19 @@ export function Dashboard() {
       });
       await reloadData();
     } catch (err) {
-      console.error(err);
-      setToast({
-        message: err instanceof Error ? err.message : "Error al registrar fe de vida",
-        type: "error",
-      });
+      const isRejection = String(err).toLowerCase().includes("user rejected");
+      if (isRejection) {
+        setToast({
+          message: "Firma rechazada por el usuario. Transacción cancelada.",
+          type: "warning",
+        });
+      } else {
+        console.error(err);
+        setToast({
+          message: err instanceof Error ? err.message : "Error al registrar fe de vida",
+          type: "error",
+        });
+      }
     }
   };
 
@@ -109,11 +117,19 @@ export function Dashboard() {
       });
       await reloadData();
     } catch (err) {
-      console.error(err);
-      setToast({
-        message: err instanceof Error ? err.message : "Error al habilitar el módulo",
-        type: "error",
-      });
+      const isRejection = String(err).toLowerCase().includes("user rejected");
+      if (isRejection) {
+        setToast({
+          message: "Firma rechazada por el usuario. Transacción cancelada.",
+          type: "warning",
+        });
+      } else {
+        console.error(err);
+        setToast({
+          message: err instanceof Error ? err.message : "Error al habilitar el módulo",
+          type: "error",
+        });
+      }
     }
   };
 
