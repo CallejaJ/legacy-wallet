@@ -11,15 +11,43 @@ export interface SafeTransaction {
   safeTxHash: string;
 }
 
-export function useSafe(safeAddress?: string) {
+interface SafeTransactionConfirmation {
+  owner: string;
+  signature: string;
+}
+
+interface SafeApiTransactionResponse {
+  to: string;
+  value: string;
+  data?: string | null;
+  operation: number;
+  confirmations?: SafeTransactionConfirmation[];
+}
+
+interface PendingTransactionsApiResponse {
+  results: SafeTransaction[];
+}
+
+export interface UseSafeResult {
+  safeSdk: Safe | null;
+  apiKit: SafeApiKit | null;
+  isModuleEnabled: boolean;
+  pendingTxs: SafeTransaction[];
+  loading: boolean;
+  error: string | null;
+  checkModuleAndTxs: (moduleAddress: string) => Promise<void>;
+  confirmAndExecuteTx: (safeTxHash: string) => Promise<unknown>;
+}
+
+export function useSafe(safeAddress?: string): UseSafeResult {
   const { ready, authenticated, user } = usePrivy();
-  const address = user?.wallet?.address;
+  const address: string | undefined = user?.wallet?.address;
   const { wallets } = useWallets();
   const [safeSdk, setSafeSdk] = useState<Safe | null>(null);
   const [apiKit, setApiKit] = useState<SafeApiKit | null>(null);
-  const [isModuleEnabled, setIsModuleEnabled] = useState(false);
+  const [isModuleEnabled, setIsModuleEnabled] = useState<boolean>(false);
   const [pendingTxs, setPendingTxs] = useState<SafeTransaction[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   // Inicializar SDK de Safe y API Kit
@@ -36,7 +64,7 @@ export function useSafe(safeAddress?: string) {
 
     let active = true;
 
-    const initSafe = async () => {
+    const initSafe = async (): Promise<void> => {
       try {
         setError(null);
         const kit = new SafeApiKit({
@@ -91,7 +119,7 @@ export function useSafe(safeAddress?: string) {
   }, [safeAddress, address, authenticated, ready, wallets]);
 
   const checkModuleAndTxs = useCallback(
-    async (moduleAddress: string) => {
+    async (moduleAddress: string): Promise<void> => {
       if (!safeSdk || !apiKit || !safeAddress) return;
       try {
         setLoading(true);
@@ -101,16 +129,28 @@ export function useSafe(safeAddress?: string) {
         );
         setIsModuleEnabled(isEnabled);
 
-        let pendingResults = [];
+        let pendingResults: SafeTransaction[] = [];
         try {
-          const pending = await apiKit.getPendingTransactions(safeAddress);
+          const pending = (await apiKit.getPendingTransactions(
+            safeAddress,
+          )) as PendingTransactionsApiResponse;
           pendingResults = pending.results;
-        } catch (err: any) {
+        } catch (err: unknown) {
+          const apiError = err as { status?: number; message?: string };
           // Si es un error 404, significa que la Safe es nueva o no está indexada aún
-          if (err.status === 404 || err.message?.includes("404") || String(err).includes("404")) {
-            console.info("Safe no indexada aún o sin transacciones en el Safe Transaction Service.");
+          if (
+            apiError.status === 404 ||
+            apiError.message?.includes("404") ||
+            String(err).includes("404")
+          ) {
+            console.info(
+              "Safe no indexada aún o sin transacciones en el Safe Transaction Service.",
+            );
           } else {
-            console.warn("Error no crítico al recuperar transacciones pendientes:", err);
+            console.warn(
+              "Error no crítico al recuperar transacciones pendientes:",
+              err,
+            );
           }
         }
         setPendingTxs(pendingResults);
@@ -124,7 +164,7 @@ export function useSafe(safeAddress?: string) {
   );
 
   const confirmAndExecuteTx = useCallback(
-    async (safeTxHash: string) => {
+    async (safeTxHash: string): Promise<unknown> => {
       if (!safeSdk || !apiKit) {
         throw new Error("Safe SDK no inicializado");
       }
@@ -133,7 +173,9 @@ export function useSafe(safeAddress?: string) {
         setLoading(true);
         setError(null);
 
-        const safeTransactionResponse = await apiKit.getTransaction(safeTxHash);
+        const safeTransactionResponse = (await apiKit.getTransaction(
+          safeTxHash,
+        )) as SafeApiTransactionResponse;
         const safeTransaction = await safeSdk.createTransaction({
           transactions: [
             {

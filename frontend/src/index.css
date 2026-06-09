@@ -63,8 +63,15 @@
   font-size: 18px;
 }
 
+html,
 body {
   margin: 0;
+  overflow-x: hidden; /* fallback iOS Safari < 16 */
+  overflow-x: clip;   /* preferred: clips without creating scroll context */
+}
+
+#root {
+  overflow-x: hidden;
 }
 
 /* Scrollbar global — evita la barra negra del navegador en modo oscuro */
