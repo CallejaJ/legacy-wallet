@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 
 import { useInheritance } from "../hooks/useInheritance";
+import { LoadingOverlay } from "../components/LoadingOverlay";
 import {
   Clock,
   Users,
@@ -117,6 +118,7 @@ export function Claim() {
 
   return (
     <div className="page-container">
+      {loading && <LoadingOverlay message="Procesando transacción en blockchain" />}
       <h1 className="title-gradient">Portal de Reclamaciones</h1>
       <p className="subtitle">
         Espacio para que los beneficiarios configuren, co-firmen y ejecuten

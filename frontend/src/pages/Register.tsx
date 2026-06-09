@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { usePrivy } from "@privy-io/react-auth";
+import { LoadingOverlay } from "../components/LoadingOverlay";
 
 import {
   UploadCloud,
@@ -165,6 +166,7 @@ export function Register() {
 
   return (
     <div className="page-container">
+      {loading && <LoadingOverlay message="Configurando herencia en el Oráculo" />}
       <h1 className="title-gradient">Registrar Herencia</h1>
       <p className="subtitle">
         Configura tus herederos y vincula el certificado notarial validador.

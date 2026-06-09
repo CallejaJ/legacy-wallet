@@ -33,7 +33,7 @@ function App() {
       {/* HEADER PRINCIPAL */}
       <header className="app-header">
         <div className="logo-area">
-          <div className="logo-bullet"></div>
+          <img src="/favicon.png" alt="Legacy Wallet" className="logo-icon" />
           <span className="logo-text">Legacy Wallet</span>
           <span className="network-tag">Sepolia Testnet</span>
         </div>
@@ -112,6 +112,7 @@ function App() {
 
       {/* FOOTER */}
       <footer className="app-footer">
+        <img src="/favicon.png" alt="Legacy Wallet" className="footer-logo" />
         <p>
           Legacy Wallet — Prototipo MVP de Herencia Digital Criptográfica basado
           en Safe

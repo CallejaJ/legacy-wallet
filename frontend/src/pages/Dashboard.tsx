@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import { useSafe } from "../hooks/usesSafe";
 import { useInheritance } from "../hooks/useInheritance";
+import { LoadingOverlay } from "../components/LoadingOverlay";
 import {
   Heart,
   Shield,
@@ -99,6 +100,15 @@ export function Dashboard() {
 
   return (
     <div className="page-container">
+      {(safeLoading || contractLoading) && (
+        <LoadingOverlay
+          message={
+            safeLoading
+              ? "Procesando transacción en Safe"
+              : "Registrando fe de vida en blockchain"
+          }
+        />
+      )}
       <div className="page-header-row">
         <div>
           <h1 className="title-gradient no-margin">Mi Bóveda Hereditaria</h1>
