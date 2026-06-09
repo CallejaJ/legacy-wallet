@@ -35,7 +35,10 @@ function App() {
         <div className="logo-area">
           <img src="/favicon.png" alt="Legacy Wallet" className="logo-icon" />
           <span className="logo-text">Legacy Wallet</span>
-          <span className="network-tag">Sepolia Testnet</span>
+          <span className="network-status">
+            <span className="status-dot" />
+            Sepolia Testnet
+          </span>
         </div>
 
         <div className="wallet-area">

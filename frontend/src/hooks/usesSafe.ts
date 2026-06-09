@@ -3,7 +3,7 @@ import { usePrivy, useWallets } from "@privy-io/react-auth";
 import Safe from "@safe-global/protocol-kit";
 import SafeApiKit from "@safe-global/api-kit";
 
-const SAFE_TX_SERVICE_URL = "https://safe-transaction-sepolia.safe.global";
+const SAFE_TX_SERVICE_URL = "https://safe-transaction-sepolia.safe.global/api";
 
 export interface SafeTransaction {
   to: string;

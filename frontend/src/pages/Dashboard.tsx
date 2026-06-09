@@ -3,6 +3,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import { useSafe } from "../hooks/usesSafe";
 import { useInheritance } from "../hooks/useInheritance";
 import { LoadingOverlay } from "../components/LoadingOverlay";
+import { Toast } from "../components/Toast";
 import {
   Heart,
   Shield,
@@ -23,6 +24,10 @@ export function Dashboard() {
     () => localStorage.getItem("moduleAddress") || "",
   );
   const [showGuide, setShowGuide] = useState(false);
+  const [toast, setToast] = useState<{
+    message: string;
+    type?: "success" | "error" | "warning" | "info";
+  } | null>(null);
 
   const {
     isModuleEnabled,
@@ -73,17 +78,24 @@ export function Dashboard() {
     return (
       tx.data &&
       tx.to.toLowerCase() === safeAddress.toLowerCase() &&
-      tx.data.toLowerCase().includes(moduleAddress.toLowerCase())
+      tx.data.toLowerCase().includes(moduleAddress.toLowerCase().replace("0x", ""))
     );
   });
 
   const handleProofOfLife = async () => {
     try {
       await submitProofOfLife();
-      alert("¡Fe de vida registrada con éxito en blockchain!");
+      setToast({
+        message: "¡Fe de vida registrada con éxito en blockchain!",
+        type: "success",
+      });
       await reloadData();
     } catch (err) {
       console.error(err);
+      setToast({
+        message: err instanceof Error ? err.message : "Error al registrar fe de vida",
+        type: "error",
+      });
     }
   };
 
@@ -91,10 +103,17 @@ export function Dashboard() {
     if (!enableModuleTx) return;
     try {
       await confirmAndExecuteTx(enableModuleTx.safeTxHash);
-      alert("¡Módulo habilitado con éxito en tu Safe!");
+      setToast({
+        message: "¡Módulo habilitado con éxito en tu Safe!",
+        type: "success",
+      });
       await reloadData();
     } catch (err) {
       console.error(err);
+      setToast({
+        message: err instanceof Error ? err.message : "Error al habilitar el módulo",
+        type: "error",
+      });
     }
   };
 
@@ -338,6 +357,13 @@ export function Dashboard() {
             </div>
           </div>
         </div>
+      )}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
       )}
     </div>
   );

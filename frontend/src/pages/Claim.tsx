@@ -3,6 +3,7 @@ import { usePrivy } from "@privy-io/react-auth";
 
 import { useInheritance } from "../hooks/useInheritance";
 import { LoadingOverlay } from "../components/LoadingOverlay";
+import { Toast } from "../components/Toast";
 import {
   Clock,
   Users,
@@ -33,6 +34,10 @@ export function Claim() {
   const [contractState, setContractState] = useState<ContractState>(null);
   const [now, setNow] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [toast, setToast] = useState<{
+    message: string;
+    type?: "success" | "error" | "warning" | "info";
+  } | null>(null);
 
   // Sincronizar dirección del módulo en localStorage
   useEffect(() => {
@@ -65,7 +70,10 @@ export function Claim() {
     try {
       setError(null);
       await initiateClaim();
-      alert("¡Reclamación de herencia iniciada en blockchain!");
+      setToast({
+        message: "¡Reclamación de herencia iniciada en blockchain!",
+        type: "success",
+      });
       await reloadData();
     } catch (err: unknown) {
       setError(
@@ -78,7 +86,10 @@ export function Claim() {
     try {
       setError(null);
       await signClaim();
-      alert("¡Firma registrada con éxito en el contrato!");
+      setToast({
+        message: "¡Firma registrada con éxito en el contrato!",
+        type: "success",
+      });
       await reloadData();
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Error al firmar.");
@@ -89,7 +100,10 @@ export function Claim() {
     try {
       setError(null);
       await executePayout();
-      alert("¡Herencia ejecutada! Los fondos se han distribuido.");
+      setToast({
+        message: "¡Herencia ejecutada! Los fondos se han distribuido.",
+        type: "success",
+      });
       await reloadData();
     } catch (err: unknown) {
       setError(
@@ -339,6 +353,13 @@ export function Claim() {
             </div>
           )}
         </div>
+      )}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
       )}
     </div>
   );

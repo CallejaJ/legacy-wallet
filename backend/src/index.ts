@@ -162,13 +162,37 @@ app.post("/oracle/configure", async (req, res) => {
     const safeTxHash = await safeSdk.getTransactionHash(safeTransaction);
     const senderSignature = await safeSdk.signHash(safeTxHash);
 
-    await safeApiKit.proposeTransaction({
-      safeAddress,
-      safeTransactionData: safeTransaction.data,
-      safeTxHash,
-      senderAddress: await signer.getAddress(),
-      senderSignature: senderSignature.data,
+    const proposeUrl = `https://safe-transaction-sepolia.safe.global/api/v1/safes/${safeAddress}/multisig-transactions/`;
+    const proposeBody = {
+      to: safeTransaction.data.to,
+      value: safeTransaction.data.value,
+      data: safeTransaction.data.data,
+      operation: safeTransaction.data.operation,
+      safeTxGas: safeTransaction.data.safeTxGas,
+      baseGas: safeTransaction.data.baseGas,
+      gasPrice: safeTransaction.data.gasPrice,
+      gasToken: safeTransaction.data.gasToken,
+      refundReceiver: safeTransaction.data.refundReceiver,
+      nonce: safeTransaction.data.nonce,
+      contractTransactionHash: safeTxHash,
+      sender: await signer.getAddress(),
+      signature: senderSignature.data,
+      origin: "Legacy Wallet"
+    };
+
+    const proposeResponse = await fetch(proposeUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(proposeBody),
     });
+
+    if (!proposeResponse.ok) {
+      const errorText = await proposeResponse.text();
+      throw new Error(`Safe API Error: ${proposeResponse.status} ${proposeResponse.statusText} - ${errorText}`);
+    }
+
 
     console.log("Propuesta enviada con éxito al Safe Transaction Service.");
 
