@@ -1,3 +1,8 @@
+---
+layout: default
+title: Guía de Despliegue
+---
+
 # Guía de Despliegue y Configuración - Bóveda Hereditaria (Legacy Wallet)
 
 Esta guía detalla los pasos necesarios para configurar, desplegar y activar el sistema de Bóveda Hereditaria (Safe + Módulo de Herencia + Oráculo PKI) en la red de pruebas **Ethereum Sepolia**.
