@@ -84,7 +84,7 @@ Toda la documentación conceptual, estratégica y técnica está disponible tant
 
 | Documento | Enlace GitHub Pages (Recomendado) | Enlace Archivo Local (Markdown) |
 | :--- | :--- | :--- |
-| **Guía de Despliegue de la dApp** | [Ver en GitHub Pages](https://callejaj.github.io/legacy-wallet/GUIA_DESPLIEGUE.html) | [GUIA_DESPLIEGUE.md](GUIA_DESPLIEGUE.md) |
+| **Guía de Despliegue de la dApp** | [Ver en GitHub Pages](https://callejaj.github.io/legacy-wallet/GUIA_DESPLIEGUE/) | [GUIA_DESPLIEGUE.md](GUIA_DESPLIEGUE.md) |
 | **Inicio y Concepto** | [Ver en GitHub Pages](https://callejaj.github.io/legacy-wallet/docs/inicio/) | [docs/inicio.md](docs/inicio.md) |
 | **Brainstorming Estratégico** | [Ver en GitHub Pages](https://callejaj.github.io/legacy-wallet/docs/brainstorming/) | [docs/brainstorming.md](docs/brainstorming.md) |
 | **Especificación Técnica** | [Ver en GitHub Pages](https://callejaj.github.io/legacy-wallet/docs/especificacion-tecnica/) | [docs/especificacion-tecnica.md](docs/especificacion-tecnica.md) |
