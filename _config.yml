@@ -35,3 +35,11 @@ defaults:
 
 # Search
 search_enabled: true
+
+# Plugins and relative links conversion
+plugins:
+  - jekyll-relative-links
+
+relative_links:
+  enabled: true
+  collections: true

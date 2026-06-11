@@ -25,9 +25,11 @@ El núcleo de **Legacy Wallet** se basa en delegar la custodia y la lógica en c
 - [Especificación Técnica](docs/especificacion-tecnica.md)
 - [ERC-4337: EOA vs Smart Accounts](docs/erc4337-flujos.md)
 - [Roadmap: 4 Sprints](docs/roadmap.md)
-- [Tareas y Seguimiento](docs/tareas.md)
-- [Decisiones del Proyecto](docs/planificacion.md#decisiones-de-diseño-para-el-mvp-simplificadoeconómico)
 - [Planificación: Implementación con Safe](docs/planificacion.md)
+- [Decisiones del Proyecto](docs/planificacion.md#decisiones-de-diseño-para-el-mvp-simplificadoeconómico)
+- [Flujo Comparativo Detallado](docs/ERC4337_EOA_vs_SmartAccounts.md)
+- [Presentación en Obsidian](docs/presentacion-obsidian.md)
+- [Guía de Despliegue de la dApp](GUIA_DESPLIEGUE.md)
 
 ## Estado
 
