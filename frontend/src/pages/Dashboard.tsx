@@ -30,6 +30,7 @@ export function Dashboard() {
   } | null>(null);
 
   const {
+    safeSdk,
     isModuleEnabled,
     pendingTxs,
     loading: safeLoading,
@@ -43,10 +44,11 @@ export function Dashboard() {
     error: contractError,
     getContractState,
     submitProofOfLife,
-  } = useInheritance(moduleAddress);
+  } = useInheritance(moduleAddress, safeSdk);
 
   type ContractState = Awaited<ReturnType<typeof getContractState>>;
   const [contractState, setContractState] = useState<ContractState>(null);
+  const isClaimActive = !!(contractState && contractState.claimStartTimestamp > 0);
 
   // Guardar direcciones en localStorage para evitar re-escribir
   useEffect(() => {
@@ -294,14 +296,16 @@ export function Dashboard() {
           </div>
 
           <button
-            className="btn btn-primary btn-large mt-6"
+            className={isClaimActive ? "btn btn-error btn-large mt-6" : "btn btn-primary btn-large mt-6"}
             onClick={handleProofOfLife}
             disabled={contractLoading}
           >
             {contractLoading ? (
               <RefreshCw className="spin" />
+            ) : isClaimActive ? (
+              "Cancelar Reclamación y Renovar Fe de Vida"
             ) : (
-              "Declarar Fe de Vida (Submit Proof of Life)"
+              "Renovar Fe de Vida"
             )}
           </button>
           {contractError && (

@@ -8,6 +8,7 @@ import {
   parseAbi,
 } from "viem";
 import { sepolia } from "viem/chains";
+import Safe from "@safe-global/protocol-kit";
 
 const INHERITANCE_MODULE_ABI = parseAbi([
   "function lastProofOfLife() external view returns (uint256)",
@@ -28,7 +29,7 @@ const publicClient = createPublicClient({
   transport: http("https://ethereum-sepolia-rpc.publicnode.com"),
 });
 
-export function useInheritance(moduleAddress?: string) {
+export function useInheritance(moduleAddress?: string, safeSdk?: Safe | null) {
   const { user } = usePrivy();
   const address = user?.wallet?.address;
   const { wallets } = useWallets();
@@ -112,7 +113,7 @@ export function useInheritance(moduleAddress?: string) {
       console.error("Error al leer estado del módulo:", err);
       return null;
     }
-  }, [moduleAddress, address, publicClient]);
+  }, [moduleAddress, address]);
 
   // Enviar Proof of Life (Titular)
   const submitProofOfLife = async () => {
@@ -121,17 +122,36 @@ export function useInheritance(moduleAddress?: string) {
       setLoading(true);
       setError(null);
 
-      const walletClient = await getWalletClient();
-      const { request } = await publicClient.simulateContract({
-        account: address as `0x${string}`,
-        address: moduleAddress as `0x${string}`,
-        abi: INHERITANCE_MODULE_ABI,
-        functionName: "submitProofOfLife",
-      });
+      if (safeSdk) {
+        const safeTransaction = await safeSdk.createTransaction({
+          transactions: [
+            {
+              to: moduleAddress,
+              value: "0",
+              data: "0xea9f2441", // selector de submitProofOfLife()
+            },
+          ],
+        });
+        const executeTxResponse = await safeSdk.executeTransaction(safeTransaction);
+        const receipt = await (
+          executeTxResponse.transactionResponse as {
+            wait: (confirmations?: number) => Promise<unknown>;
+          }
+        ).wait();
+        return receipt;
+      } else {
+        const walletClient = await getWalletClient();
+        const { request } = await publicClient.simulateContract({
+          account: address as `0x${string}`,
+          address: moduleAddress as `0x${string}`,
+          abi: INHERITANCE_MODULE_ABI,
+          functionName: "submitProofOfLife",
+        });
 
-      const hash = await walletClient.writeContract(request);
-      await publicClient.waitForTransactionReceipt({ hash });
-      return hash;
+        const hash = await walletClient.writeContract(request);
+        await publicClient.waitForTransactionReceipt({ hash });
+        return hash;
+      }
     } catch (err) {
       const isRejection = String(err).toLowerCase().includes("user rejected");
       if (isRejection) {
