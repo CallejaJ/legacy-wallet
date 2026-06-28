@@ -14,8 +14,9 @@ import {
 } from "lucide-react";
 
 export function Dashboard() {
-  const { authenticated } = usePrivy();
+  const { authenticated, user } = usePrivy();
   const isConnected = authenticated;
+  const userAddress = user?.wallet?.address;
 
   const [safeAddress, setSafeAddress] = useState(
     () => localStorage.getItem("safeAddress") || "",
@@ -384,10 +385,14 @@ export function Dashboard() {
               </p>
               <code className="guide-code">
                 cd contracts{"\n"}
-                forge create src/InheritanceModule.sol:InheritanceModule --rpc-url https://ethereum-sepolia-rpc.publicnode.com --private-key &lt;TU_CLAVE_PRIVADA_METAMASK&gt; --broadcast --constructor-args 0x1343c2E7F8b234af7676C8D45faFAB9ce7532686 &lt;DIRECCIÓN_DE_TU_SAFE&gt;
+                forge create src/InheritanceModule.sol:InheritanceModule --rpc-url https://ethereum-sepolia-rpc.publicnode.com --private-key &lt;TU_CLAVE_PRIVADA_METAMASK&gt; --broadcast --constructor-args {userAddress || "<DIRECCIÓN_DE_TU_ORÁCULO_PRIVY>"} &lt;DIRECCIÓN_DE_TU_SAFE&gt;
               </code>
               <p className="guide-note">
-                * Nota: 0x1343...2686 es tu dirección de Gmail que actúa como oráculo de firmas.
+                * Nota: {userAddress ? (
+                  <>La dirección <strong>{userAddress}</strong> es la de tu cuenta de Gmail que actúa como oráculo de firmas.</>
+                ) : (
+                  "Inicia sesión en la barra superior para ver la dirección de tu Gmail que actúa como oráculo de firmas."
+                )}
               </p>
             </div>
 
