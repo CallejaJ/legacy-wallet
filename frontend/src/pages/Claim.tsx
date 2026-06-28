@@ -38,6 +38,7 @@ export function Claim() {
     message: string;
     type?: "success" | "error" | "warning" | "info";
   } | null>(null);
+  const [syncing, setSyncing] = useState(false);
 
   // Sincronizar dirección del módulo en localStorage
   useEffect(() => {
@@ -45,15 +46,34 @@ export function Claim() {
   }, [moduleAddress]);
 
   // Cargar estado de la blockchain
-  const reloadData = useCallback(async () => {
+  const reloadData = useCallback(async (showToast = false) => {
     if (moduleAddress) {
       setError(null);
-      const state = await getContractState();
-      if (state) {
-        setContractState(state);
-        setNow(Math.floor(Date.now() / 1000));
-      } else {
-        setError("No se pudo conectar con el contrato. Verifica la dirección.");
+      setSyncing(true);
+      try {
+        const state = await getContractState();
+        if (state) {
+          setContractState(state);
+          setNow(Math.floor(Date.now() / 1000));
+          if (showToast) {
+            setToast({
+              message: "¡Datos del contrato sincronizados!",
+              type: "success",
+            });
+          }
+        } else {
+          setError("No se pudo conectar con el contrato. Verifica la dirección.");
+        }
+      } catch (err) {
+        console.error(err);
+        if (showToast) {
+          setToast({
+            message: "Error al sincronizar los datos del contrato.",
+            type: "error",
+          });
+        }
+      } finally {
+        setSyncing(false);
       }
     }
   }, [moduleAddress, getContractState]);
@@ -61,7 +81,7 @@ export function Claim() {
   useEffect(() => {
     if (moduleAddress) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      void reloadData();
+      void reloadData(false);
     }
   }, [moduleAddress, isConnected, reloadData]);
 
@@ -189,14 +209,16 @@ export function Claim() {
               onChange={(e) => setModuleAddress(e.target.value)}
             />
           </div>
-          <button
-            className="btn btn-secondary w-full"
-            onClick={reloadData}
-            disabled={loading}
-          >
-            <RefreshCw className={`icon-btn ${loading ? "spin" : ""}`} />{" "}
-            Sincronizar Contrato
-          </button>
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "16px" }}>
+            <button
+              className="btn btn-secondary"
+              onClick={() => void reloadData(true)}
+              disabled={syncing}
+            >
+              <RefreshCw className={`icon-btn ${syncing ? "spin" : ""}`} />{" "}
+              Sincronizar Contrato
+            </button>
+          </div>
         </div>
 
         {/* Panel de Reglas del Contrato */}
@@ -270,14 +292,14 @@ export function Claim() {
                   )}
                 </button>
               ) : (
-                <div className="alert alert-info mt-4 inline-block">
-                  <Clock /> La reclamación podrá iniciarse si el titular pasa{" "}
+                <p className="description mt-4" style={{ display: "inline-flex", alignItems: "center", gap: "8px", justifyContent: "center" }}>
+                  <Clock size={16} /> La reclamación podrá iniciarse si el titular pasa{" "}
                   {(
                     (contractState.inactivityThreshold - secondsElapsed) /
                     86400
                   ).toFixed(1)}{" "}
                   días más inactivo.
-                </div>
+                </p>
               )}
             </div>
           ) : (

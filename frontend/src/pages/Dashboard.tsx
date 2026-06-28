@@ -49,6 +49,7 @@ export function Dashboard() {
   type ContractState = Awaited<ReturnType<typeof getContractState>>;
   const [contractState, setContractState] = useState<ContractState>(null);
   const isClaimActive = !!(contractState && contractState.claimStartTimestamp > 0);
+  const [syncing, setSyncing] = useState(false);
 
   // Guardar direcciones en localStorage para evitar re-escribir
   useEffect(() => {
@@ -60,18 +61,37 @@ export function Dashboard() {
   }, [moduleAddress]);
 
   // Cargar estado
-  const reloadData = useCallback(async () => {
+  const reloadData = useCallback(async (showToast = false) => {
     if (safeAddress && moduleAddress) {
-      await checkModuleAndTxs(moduleAddress);
-      const state = await getContractState();
-      setContractState(state);
+      setSyncing(true);
+      try {
+        await checkModuleAndTxs(moduleAddress);
+        const state = await getContractState();
+        setContractState(state);
+        if (showToast) {
+          setToast({
+            message: "¡Estado de Safe y contrato sincronizados!",
+            type: "success",
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        if (showToast) {
+          setToast({
+            message: "Error al sincronizar el estado",
+            type: "error",
+          });
+        }
+      } finally {
+        setSyncing(false);
+      }
     }
   }, [safeAddress, moduleAddress, checkModuleAndTxs, getContractState]);
 
   useEffect(() => {
     if (safeAddress && moduleAddress) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      void reloadData();
+      void reloadData(false);
     }
   }, [safeAddress, moduleAddress, isConnected, reloadData]);
 
@@ -185,9 +205,11 @@ export function Dashboard() {
               onChange={(e) => setModuleAddress(e.target.value)}
             />
           </div>
-          <button className="btn btn-secondary w-full" onClick={reloadData}>
-            <RefreshCw className="icon-btn" /> Sincronizar Estado
-          </button>
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "16px" }}>
+            <button className="btn btn-secondary" onClick={() => void reloadData(true)} disabled={syncing}>
+              <RefreshCw className={`icon-btn ${syncing ? "spin" : ""}`} /> Sincronizar Estado
+            </button>
+          </div>
         </div>
 
         {/* Panel de Estado e Integridad */}
