@@ -74,6 +74,11 @@ Para utilizar el inicio de sesión con Gmail en producción (Vercel) y desarroll
 6. Haz clic en **Crear**, firma la transacción en MetaMask y espera a que se confirme en blockchain.
 7. Copia la dirección resultante del Safe (ej: `0x86D2cE648D08DDc481a878092ab51e7dc340b7E5`).
 
+> [!NOTE]
+> **¿No te aparece tu Safe anterior en la interfaz?**
+> Safe Global almacena la lista de tus cuentas importadas localmente en la memoria (caché/cookies) de tu navegador. Si borras el historial o cambias de navegador, la pantalla se verá vacía. 
+> No te preocupes, no has perdido tus fondos. Para recuperarla, haz clic en **`+ Add`** (al lado del botón de creación), selecciona la red **Sepolia**, introduce la dirección de tu Safe anterior (`0x...`) y confirma para volver a vincularla al panel de control sin coste alguno.
+
 ---
 
 ## Paso 4: Desplegar el Contrato InheritanceModule

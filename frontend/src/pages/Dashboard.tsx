@@ -376,6 +376,9 @@ export function Dashboard() {
               <p>
                 Ve a la web de Safe: <a href="https://app.safe.global/" target="_blank" rel="noopener noreferrer" className="accent-text">app.safe.global</a>. Conecta tu MetaMask (con tu cuenta de Privy seleccionada). Elige la red <strong>Sepolia</strong>, haz clic en "Create account" y sigue los pasos para crear tu Safe 1/1. Al finalizar, copia la dirección de tu Safe.
               </p>
+              <p className="guide-note">
+                * Consejo: Si ya tenías una Safe y no te aparece por haber borrado la caché o historial, no te preocupes. Haz clic en <strong>"+ Add"</strong> (al lado de "Create account"), selecciona Sepolia e introduce la dirección de tu Safe anterior para importarla de nuevo.
+              </p>
             </div>
 
             <div className="guide-step">
