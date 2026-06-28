@@ -158,6 +158,24 @@ export function Claim() {
     }
   };
 
+  // Formatear duración de inactividad de forma dinámica
+  const formatDuration = (seconds: number) => {
+    if (seconds <= 0) return "0s";
+    const days = Math.floor(seconds / 86400);
+    const hours = Math.floor((seconds % 86400) / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
+
+    if (days >= 1) {
+      return `${(seconds / 86400).toFixed(1)} días`;
+    }
+    const parts = [];
+    if (hours > 0) parts.push(`${hours}h`);
+    if (minutes > 0) parts.push(`${minutes}m`);
+    if (secs > 0 || parts.length === 0) parts.push(`${secs}s`);
+    return parts.join(" ");
+  };
+
   // Cálculos de inactividad
   const secondsElapsed = contractState
     ? now - contractState.lastProofOfLife
@@ -243,7 +261,7 @@ export function Claim() {
                 <span
                   className={`badge ${isInactive ? "badge-error" : "badge-success"}`}
                 >
-                  {(secondsElapsed / 86400).toFixed(1)} días transcurridos
+                  {formatDuration(secondsElapsed)} transcurridos
                 </span>
               </div>
               <div className="status-row">
@@ -294,11 +312,7 @@ export function Claim() {
               ) : (
                 <p className="description mt-4" style={{ display: "inline-flex", alignItems: "center", gap: "8px", justifyContent: "center" }}>
                   <Clock size={16} /> La reclamación podrá iniciarse si el titular pasa{" "}
-                  {(
-                    (contractState.inactivityThreshold - secondsElapsed) /
-                    86400
-                  ).toFixed(1)}{" "}
-                  días más inactivo.
+                  {formatDuration(contractState.inactivityThreshold - secondsElapsed)} más inactivo.
                 </p>
               )}
             </div>
